@@ -2,16 +2,17 @@ class UsersController < ApplicationController
 
   def show
     user = User.find_by(name: params[:id])
-    byebug
     render json: UserSerializer.new(user).serialized_json
   end
 
-  def new
-
-  end
-
   def create
-
+    user = User.new(user_params)
+    if user.save
+      render json: UserSerializer.new(user).serialized_json
+    else
+      render json: "error"
+    end
+    
   end
 
   def edit
@@ -24,6 +25,12 @@ class UsersController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :highscore)
   end
 
 end
