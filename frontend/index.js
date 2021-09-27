@@ -27,23 +27,25 @@ const addEvents = () => {
     console.log("After preventDefault");
   })
 }
-const createUsers = () => {
-
-}
 const fetchUsersIndex = () => {
-  let users;
-  fetch(indexUrl + "users").then(resp => resp.json()).then(json => users = User.createUsers(json)).catch(error => error);
-  return users;
+  fetch(indexUrl + "users").then(resp => resp.json()).then(json => renderHighscores(User.createUsers(json))).catch(error => error);
 }
-const renderHighscores = () => {
-  const users = fetchUsersIndex()
-  const highscoreDiv = document.getElementsByClassName('highscores')[0];
+const renderHighscores = (arrayOfUsers) => {
+  const users = arrayOfUsers;
+  const highscoreDiv = document.getElementsByClassName('highscore')[0];
   const ul = document.createElement('ul');
+  users.map(e => {
+    const li = document.createElement('li');
+    li.classList.add('highscore-actual')
+    li.innerText = `${e.name} has a highscore of ${e.highscore}.`
+    ul.appendChild(li);
+  })
+  highscoreDiv.appendChild(ul);
   
 }
 document.addEventListener("DOMContentLoaded", e =>{
   addEvents();
-  renderHighscores();
+  fetchUsersIndex();
 })
 
 
@@ -57,10 +59,11 @@ class User {
     this.highscore = highscore;
   }
   static createUsers(jsonUsers) {
-    jsonUsers.data.map(e =>{
-      if (e.type === "user") return new User(e.id, e.attributes.name, e.attributes.highscore)
+    const users = [];
+    jsonUsers.data.forEach(e =>{
+      users.push(new User(e.id, e.attributes.name, e.attributes.highscore))
     });
-    return jsonUsers.data;
+    return users;
   }
   
 }
