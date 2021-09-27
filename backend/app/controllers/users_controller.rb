@@ -21,22 +21,31 @@ class UsersController < ApplicationController
     
   end
 
-  def edit
-
-  end
-
   def update
-    
+    user = User.find_by(id: params[:id])
+    if user.update(user_params)
+      render json: "User Updated Successfully"
+    else
+      render json: "error";
+    end
   end
 
   def destroy
-
+    user = User.find_by(id: params[:id])
+    byebug
+    user.destroy
+    
+    if user.destroyed?
+      render json: "Destroyed."
+    else
+      render json: "error";
+    end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :highscore)
+    params.require(:user).permit(:name, :highscore, :id)
   end
 
   def serialize_user(user, options = nil)

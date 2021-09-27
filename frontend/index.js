@@ -1,27 +1,11 @@
 const indexUrl = "http://localhost:3000/"
 
-const createUserConfig = (userName, userHighscore = 0) => {
-  return userConfigObj = {
-
-  headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-  },
-  method: "POST",
-  body: JSON.stringify({
-          user: {
-                  name: userName,
-                  highscore: userHighscore
-          }})
-  }
-}
-
 const addEvents = () => {
   document.getElementsByClassName('create-user')[0].addEventListener("submit", e => {
     e.preventDefault();
     const userName = document.getElementsByClassName('new-user-name')[0].value;
     console.log("Before Fetch")
-    fetch(indexUrl + "users", createUserConfig(userName)).then(resp => resp.json()).then(json => console.log(json)).catch(error => console.log("error" + error));
+    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => console.log(json)).catch(error => console.log("error" + error));
     console.log("After fetch and before prevent default")
     
     console.log("After preventDefault");
@@ -65,5 +49,35 @@ class User {
     });
     return users;
   }
+  static createUserConfig(userName, userHighscore = 0) {
+    return {
   
+    headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({
+            user: {
+                    name: userName,
+                    highscore: userHighscore
+            }})
+    }
+  }
+  static createDestroyUserConfig(id) {
+
+    return {
+  
+      headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+      },
+      method: "DELETE",
+      body: JSON.stringify({
+              user: {
+                      id: id
+              }})
+    }
+    
+  }
 }
