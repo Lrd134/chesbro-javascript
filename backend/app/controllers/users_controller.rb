@@ -32,11 +32,12 @@ class UsersController < ApplicationController
 
   def destroy
     user = User.find_by(id: params[:id])
-    byebug
     user.destroy
     
     if user.destroyed?
-      render json: "Destroyed."
+      render json: {
+        message: "Destroyed successfully."
+    }.to_json
     else
       render json: "error";
     end
