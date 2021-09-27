@@ -15,6 +15,7 @@ const createUserConfig = (userName, userHighscore = 0) => {
           }})
   }
 }
+
 document.addEventListener("keydown", e =>{
   fetch("http://localhost:3000/users", createNewUserConfig("Faux name for now")).then(resp => resp.json()).then(json => console.log(json)).catch(error => console.log("error" + error));
 })
