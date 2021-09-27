@@ -27,10 +27,16 @@ const addEvents = () => {
     console.log("After preventDefault");
   })
 }
-const fetchIndex = () => {
-  return fetch(indexUrl + "users").then(resp => resp.json()).then(json => json).catch(error => error);
+const createUsers = () => {
+
+}
+const fetchUsersIndex = () => {
+  let users;
+  fetch(indexUrl + "users").then(resp => resp.json()).then(json => users = User.createUsers(json)).catch(error => error);
+  return users;
 }
 const renderHighscores = () => {
+  const users = fetchUsersIndex()
   const highscoreDiv = document.getElementsByClassName('highscores')[0];
   const ul = document.createElement('ul');
   
@@ -44,3 +50,17 @@ document.addEventListener("DOMContentLoaded", e =>{
 // 
 // 
 
+class User {
+  constructor(id, name = "Example", highscore = 0) {
+    this.id = id;
+    this.name = name;
+    this.highscore = highscore;
+  }
+  static createUsers(jsonUsers) {
+    jsonUsers.data.map(e =>{
+      if (e.type === "user") return new User(e.id, e.attributes.name, e.attributes.highscore)
+    });
+    return jsonUsers.data;
+  }
+  
+}
