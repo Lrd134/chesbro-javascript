@@ -1,5 +1,11 @@
 class UsersController < ApplicationController
 
+  def index
+    options = {};
+    user = User.all
+    options[:is_collection] = true;
+    render json: serialize_user(user, options)
+  end
   def show
     user = User.find_by(name: params[:id])
     render json: serialize_user(user)
@@ -33,8 +39,12 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :highscore)
   end
 
-  def serialize_user(user)
-    UserSerializer.new(user).serialized_json
+  def serialize_user(user, options = nil)
+    if options
+      UserSerializer.new(user, options).serialized_json
+    else
+      UserSerializer.new(user).serialized_json
+    end
   end
 
 end
