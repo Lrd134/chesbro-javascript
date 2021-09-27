@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
   def show
-    users = User.find_by(name: params[:name])
+    user = User.find_by(name: params[:id])
+    byebug
     render json: UserSerializer.new(user).serialized_json
   end
 
