@@ -88,7 +88,7 @@ class User {
     }
   }
 
-  static updateUserConfig(name = "", highscore) {
+  static updateUserConfig(name = "", highscore = 0) {
         return {
   
       headers: {
