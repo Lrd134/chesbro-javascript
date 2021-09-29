@@ -113,7 +113,9 @@ class User {
   }
 
   login() {
-    
+    const loginDiv = document.getElementsByClassName('login')[0];
+    loginDiv.innerText = `${this.name} is Currently Logged in.`
+    debugger;
   }
 }
 
