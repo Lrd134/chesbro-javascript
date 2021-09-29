@@ -27,7 +27,12 @@ class User {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
   static updateUser(e) {
-    renderHighscore
+    let textField;
+    for (let input of e.target.children) {
+      if (input.type === "text") textField = input;
+    }
+    e.preventDefault();
+    User.renderHighscore(textField.value);
   }
   static createUser(e) {
     e.preventDefault();
@@ -36,10 +41,11 @@ class User {
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
-  // static renderHighscore(user) {
-  //   document.getElementsByClassName('highscore-actual');
-  //   debugger;
-  // }
+  static renderHighscore(name) {
+    
+    let highscores = document.getElementsByClassName('highscore-actual');
+    debugger;
+  }
   static renderUsers(jsonUsers) {
     const users = [];
     jsonUsers.data.forEach(e =>{
