@@ -28,12 +28,10 @@ class User {
 
   static createUser(e) {
     e.preventDefault();
-    let user = {}
+    let user;
     const userName = document.getElementsByClassName('new-user-name')[0].value;
-    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => user = Object.assign({}, json)).catch(error => console.log("error" + error));
-    
+    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
-    User.login(user);
 
   }
 
@@ -52,6 +50,7 @@ class User {
     const users = arrayOfUsers;
     const highscoreDiv = document.getElementsByClassName('highscore')[0];
     Helper.removeChildElements(highscoreDiv);
+    console.log("finished removing");
     const ul = document.createElement('ul');
     users.map(e => {
       const li = document.createElement('li');
@@ -114,14 +113,14 @@ class User {
     
   }
 
-  static login(user) {
-
+  login() {
+    debugger;
   }
 }
 
 class Helper {
   static removeChildElements(parent) {
-    if (parent.children.length > 1){
+    if (parent.children.length >= 1){
       for (let child in parent.children)
       {
         parent.removeChild(parent.children[child]);
