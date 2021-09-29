@@ -29,14 +29,14 @@ class User {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
   static updateUser(e) {
-    let textField;
+    let userName;
     for (let input of e.target.children) {
-      if (input.type === "text") textField = input;
+      if (input.type === "text") userName = input,value;
     }
     e.preventDefault();
 
     let userName = e.target.parentElement.innerText.split(" ")[0]
-    fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(textField.value))
+    fetch(indexUrl + `users/${userName}`, User.updateUserConfig(userName)).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(userName))
   }
   static createUser(e) {
     e.preventDefault();
