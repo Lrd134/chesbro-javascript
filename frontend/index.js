@@ -31,12 +31,13 @@ class User {
   static updateUser(e) {
     let newName;
     for (let input of e.target.children) {
-      if (input.type === "text") newName = input.value;
+      if (input.type === "text") {
+        newName = input.value;
+      }
     }
     e.preventDefault();
-
-    let userName = e.target.parentElement.innerText.split(" ")[0]
-    fetch(indexUrl + `users/${userName}`, User.updateUserConfig(userName)).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(userName))
+    let userName = e.target.parentElement.innerText.split(" ")[0];
+    fetch(indexUrl + `users/${userName}`, User.updateUserConfig(newName)).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(userName))
   }
   static createUser(e) {
     e.preventDefault();
@@ -81,7 +82,7 @@ class User {
     method: "POST",
     body: JSON.stringify({
             user: {
-                    name: userName,
+                    newName: userName,
                     highscore: userHighscore
             }})
     }
@@ -172,8 +173,8 @@ class User {
         let newScore = document.createElement('li');
         let login = document.getElementsByClassName('login')[0];
         let loginText = login.innerText.split(' ');
-        loginText.shift(name);
-        loginText.unshift(name);
+        loginText.shift();
+        loginText.unshift(this.name);
         login.innerText = loginText.join(' ')
         newScore.classList.add('highscore-actual');
 
