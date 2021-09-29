@@ -1,3 +1,4 @@
+
 const indexUrl = "http://localhost:3000/"
 
 const addEvents = () => {
@@ -32,7 +33,6 @@ class User {
     const userName = document.getElementsByClassName('new-user-name')[0].value;
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
-
   }
 
   static renderUsers(jsonUsers) {
@@ -49,8 +49,6 @@ class User {
 
     const users = arrayOfUsers;
     const highscoreDiv = document.getElementsByClassName('highscore')[0];
-    Helper.removeChildElements(highscoreDiv);
-    console.log("finished removing");
     const ul = document.createElement('ul');
     users.map(e => {
       const li = document.createElement('li');
@@ -58,6 +56,7 @@ class User {
       li.innerText = `${e.name} has a highscore of ${e.highscore}.`
       ul.appendChild(li);
     })
+    Helper.removeChildElements(highscoreDiv);
     highscoreDiv.appendChild(ul);
     
   }
@@ -114,16 +113,15 @@ class User {
   }
 
   login() {
-    debugger;
   }
 }
 
 class Helper {
   static removeChildElements(parent) {
-    if (parent.children.length >= 1){
-      for (let child in parent.children)
+    if (parent.children.length > 0){
+      for (let int = 0; int < parent.children.length; int++)
       {
-        parent.removeChild(parent.children[child]);
+        parent.removeChild(parent.children[int]);
       }
     } 
   }
