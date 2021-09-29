@@ -22,7 +22,11 @@ class User {
     this.name = name;
     this.highscore = highscore;
   }
-  
+
+  static getUser(name) {
+    let user;
+    fetch(indexUrl + `users/${name}`).then(resp => resp.json()).then(json => User.fromJson(json))
+  }
   static getUsers() {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
@@ -42,7 +46,6 @@ class User {
     User.getUsers()
   }
   static renderHighscore(user, name) {
-    
     let highscores = document.getElementsByClassName('highscore-actual');
     for (let highscore of highscores) {
       if (highscore.innerText === name) console.log(highscore);
