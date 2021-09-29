@@ -63,8 +63,8 @@ class User {
     const ul = document.createElement('ul');
     users.map(e => {
       const li = document.createElement('li');
-      li.classList.add('highscore-actual')
-      li.innerText = `${e.name} has a highscore of ${e.highscore}. `
+      li.classList.add('highscore-actual');
+      li.innerText = `${e.name} has a highscore of ${e.highscore}.`
       ul.appendChild(li);
     })
     Helper.removeChildElements(highscoreDiv);
@@ -181,10 +181,10 @@ class User {
         ]
         logoutButton.classList.add('logout', 'user');
         logoutButton.innerText = "Logout";
-        let loginTextSplit = login.innerText.split(' ').slice(0, 5);
+        let loginTextSplit = login.innerText.replace('.', ' ').split(' ').slice(0, 5);
         loginTextSplit.shift();
         loginTextSplit.unshift(this.name);
-        login.innerText = loginTextSplit.join(' ')
+        login.innerText = loginTextSplit.join(' ') + '.';
         login.appendChild(editButton);
         login.appendChild(deleteButton);
         login.appendChild(logoutButton);
