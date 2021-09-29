@@ -29,9 +29,9 @@ class User {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
   static updateUser(e) {
-    let userName;
+    let newName;
     for (let input of e.target.children) {
-      if (input.type === "text") userName = input,value;
+      if (input.type === "text") newName = input,value;
     }
     e.preventDefault();
 
