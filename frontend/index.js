@@ -34,7 +34,7 @@ class User {
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
-
+  
   static renderUsers(jsonUsers) {
     const users = [];
     jsonUsers.data.forEach(e =>{
@@ -130,11 +130,15 @@ class User {
       userName.placeholder = `${this.name}`;
       submit.type = "submit";
       submit.value = "Change Name";
+      userName.classList.add('edit');
+      userName.classList.add('user');
       submit.classList.add('edit');
       submit.classList.add('user');
       form.appendChild(userName);
       form.appendChild(submit);
+      form.addEventListener('submit', User.updateUser);
       loginDiv.appendChild(form);
+
     })
     buttons.deleteButton.innerText = `Delete ${this.name}`;
     buttons.deleteButton.classList.add('delete');
