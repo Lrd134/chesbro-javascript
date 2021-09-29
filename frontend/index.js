@@ -132,22 +132,7 @@ class User {
 
     buttons.editButton.innerText = `Edit ${this.name}`;
     buttons.editButton.classList.add('edit');
-    buttons.editButton.addEventListener('click', e => {
-      let form = document.createElement('form');
-      let userName = document.createElement('input');
-      let submit = document.createElement('input');
-      userName.type = "text";
-      userName.placeholder = `${this.name}`;
-      submit.type = "submit";
-      submit.value = "Change Name";
-      userName.classList.add('edit', 'user');
-      submit.classList.add('edit', 'user');
-      form.appendChild(userName);
-      form.appendChild(submit);
-      form.addEventListener('submit', User.updateUser);
-      loginDiv.appendChild(form);
-
-    })
+    buttons.editButton.addEventListener('click', Helper.userEditFormEvent)
     buttons.deleteButton.innerText = `Delete ${this.name}`;
     buttons.deleteButton.classList.add('delete');
     buttons.logoutButton.innerText = `Logout`;
@@ -222,5 +207,21 @@ class Helper {
     editButton.classList.add('edit');
     editButton.innerText = `Edit ${objectName}`;
     return editButton;
+  }
+  static userEditFormEvent(e) {
+    const loginDiv = document.getElementsByClassName('login')[0];
+    const editForm = document.createElement('form');
+    const nameInput = document.createElement('input');
+    const nameSubmit = document.createElement('input');
+    nameInput.type = "text";
+    nameInput.placeholder = `${this.name}`;
+    nameSubmit.type = "submit";
+    nameSubmit.value = "Change Name";
+    nameInput.classList.add('edit', 'user');
+    nameSubmit.classList.add('edit', 'user');
+    editForm.appendChild(nameInput);
+    editForm.appendChild(nameSubmit);
+    editForm.addEventListener('submit', User.updateUser);
+    loginDiv.appendChild(editForm);
   }
 }
