@@ -177,10 +177,12 @@ class User {
         loginText.unshift(name);
         login.innerText = loginText.join(' ')
         newScore.classList.add('highscore-actual');
+
         highscore.remove();
         split.shift();
         split.unshift(name);
         newScore.innerText = split.join(" ");
+        
         ul.appendChild(newScore);
       }
     }
@@ -197,5 +199,14 @@ class Helper {
         parent.removeChild(parent.children[int]);
       }
     } 
+  }
+
+  static createDeleteButton(objectName) {
+    let deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete');
+    deleteButton.innerText(`Delete ${objectName}`);
+    return deleteButton;
+    
+
   }
 }
