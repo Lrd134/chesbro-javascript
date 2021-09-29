@@ -31,7 +31,7 @@ class User {
   static updateUser(e) {
     let newName;
     for (let input of e.target.children) {
-      if (input.type === "text") newName = input,value;
+      if (input.type === "text") newName = input.value;
     }
     e.preventDefault();
 
