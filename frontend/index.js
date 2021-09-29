@@ -37,7 +37,7 @@ class User {
     }
     e.preventDefault();
     let userName = e.target.parentElement.innerText.split(" ")[0];
-    fetch(indexUrl + `users/${userName}`, User.updateUserConfig(newName)).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(userName))
+    fetch(indexUrl + `users/${userName}`, User.updateUserConfig(newName)).then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
   }
   static createUser(e) {
     e.preventDefault();
@@ -164,30 +164,25 @@ class User {
     }
   }
 
-  renderHighscore(name) {
+  updateHighscore(name) {
     let highscores = document.getElementsByClassName('highscore-actual');
-    for (let highscore of highscores) {
-      if (highscore.innerText.split(" ")[0] === this.name) {
-        let split = highscore.innerText.split(" ");
-        let ul = highscore.parentElement;
-        let newScore = document.createElement('li');
-        let login = document.getElementsByClassName('login')[0];
-        let loginText = login.innerText.split(' ');
-        loginText.shift();
-        loginText.unshift(this.name);
-        login.innerText = loginText.join(' ')
-        newScore.classList.add('highscore-actual');
 
-        highscore.remove();
-        split.shift();
-        split.unshift(name);
-        newScore.innerText = split.join(" ");
-        
-        ul.appendChild(newScore);
+    for (let highscore of highscores) {
+      const hsInnerTextSplit = highscore.innerText.split(' ');
+      if (highscore.innerText.split(" ")[0] === name) {
+
+        hsInnerTextSplit.shift();
+        hsInnerTextSplit.unshift(this.name);
+        highscore.innerText = hsInnerTextSplit.join(" ");
+
+
+
       }
     }
   }
 }
+
+
     // buttons.editButton.addEventListener('click', e => {
     //   fetch(indexUrl + `users/${this.id}`, updateUserConfig(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
     // });
@@ -204,7 +199,7 @@ class Helper {
   static createDeleteButton(objectName) {
     let deleteButton = document.createElement('button');
     deleteButton.classList.add('delete');
-    deleteButton.innerText(`Delete ${objectName}`);
+    deleteButton.innerText = `Delete ${objectName}`;
     return deleteButton;
     
 
@@ -213,7 +208,7 @@ class Helper {
   static createEditButton(objectName) {
     let editButton = document.createElement('button');
     editButton.classList.add('edit');
-    editButton.innerText(`Edit ${objectName}`);
+    editButton.innerText = `Edit ${objectName}`;
     return editButton;
   }
 }
