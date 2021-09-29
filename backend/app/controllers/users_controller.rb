@@ -23,6 +23,7 @@ class UsersController < ApplicationController
 
   def update
     user = User.find_by(name: params[:name])
+    byebug
     if user.update(name: params[:newName], highscore: params[:highscore])
       render json: serialize_user(user)
     else
