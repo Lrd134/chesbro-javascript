@@ -22,10 +22,12 @@ class User {
     this.name = name;
     this.highscore = highscore;
   }
-
+  static fromJson(json) {
+    return new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore)
+  }
   static getUser(name) {
     let user;
-    fetch(indexUrl + `users/${name}`).then(resp => resp.json()).then(json => User.fromJson(json))
+    fetch(indexUrl + `users/${name}`).then(resp => resp.json()).then(json => user = User.fromJson(json))
   }
   static getUsers() {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
