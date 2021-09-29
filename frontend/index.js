@@ -114,8 +114,23 @@ class User {
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
+    let buttons = {
+      editButton: document.createElement('button'),
+      deleteButton: document.createElement('button'),
+      logoutButton: document.createElement('button')
+    }
+
+    buttons.editButton.innerText = `Edit ${this.name}`;
+    buttons.deleteButton.innerText = `Delete ${this.name}`;
+    buttons.logoutButton.innerText = `Logout`;
+
     loginDiv.innerText = `${this.name} is Currently Logged in.`
-    debugger;
+    loginDiv.classList.remove('hidden');
+
+    for (let button in buttons) {
+      buttons[button].classList.add('user');
+      loginDiv.appendChild(buttons[button])
+    }
   }
 }
 
