@@ -28,12 +28,16 @@ class User {
 
   static createUser(e) {
     e.preventDefault();
+    let user = {}
     const userName = document.getElementsByClassName('new-user-name')[0].value;
-    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => User.getUsers()).catch(error => console.log("error" + error));
+    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => user = Object.assign({}, json)).catch(error => console.log("error" + error));
+    
+    User.getUsers()
+    User.login(user);
+
   }
 
   static renderUsers(jsonUsers) {
-    debugger;
     const users = [];
     jsonUsers.data.forEach(e =>{
       users.push(new User(e.id, e.attributes.name, e.attributes.highscore))
@@ -106,5 +110,8 @@ class User {
               }})
     }
     
+  }
+
+  static login(user) {
   }
 }
