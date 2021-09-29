@@ -26,7 +26,9 @@ class User {
   static getUsers() {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
-
+  static updateUser(e) {
+    renderHighscore
+  }
   static createUser(e) {
     e.preventDefault();
     let user;
@@ -34,7 +36,10 @@ class User {
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
-  
+  // static renderHighscore(user) {
+  //   document.getElementsByClassName('highscore-actual');
+  //   debugger;
+  // }
   static renderUsers(jsonUsers) {
     const users = [];
     jsonUsers.data.forEach(e =>{
