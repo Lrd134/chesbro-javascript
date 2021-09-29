@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     render json: serialize_user(user, options)
   end
   def show
-    user = User.find_by(name: params[:id])
+    user = User.find_by(name: params[:name])
     render json: serialize_user(user)
   end
 
@@ -22,9 +22,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find_by(id: params[:id])
+    user = User.find_by(name: params[:name])
     if user.update(user_params)
-      render json: "User Updated Successfully"
+      render json: serialize_user(user)
     else
       render json: "error";
     end
