@@ -209,4 +209,11 @@ class Helper {
     
 
   }
+
+  static createEditButton(objectName) {
+    let editButton = document.createElement('button');
+    editButton.classList.add('edit');
+    editButton.innerText(`Edit ${objectName}`);
+    return editButton;
+  }
 }
