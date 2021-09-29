@@ -41,10 +41,12 @@ class User {
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
-  static renderHighscore(name) {
+  static renderHighscore(user, name) {
     
     let highscores = document.getElementsByClassName('highscore-actual');
-    debugger;
+    for (let highscore of highscores) {
+      if (highscore.innerText === name) console.log(highscore);
+    }
   }
   static renderUsers(jsonUsers) {
     const users = [];
