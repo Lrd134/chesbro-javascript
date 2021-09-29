@@ -122,11 +122,25 @@ class User {
 
     buttons.editButton.innerText = `Edit ${this.name}`;
     buttons.editButton.classList.add('edit');
+    buttons.editButton.addEventListener('click', e => {
+      let form = document.createElement('form');
+      let userName = document.createElement('input');
+      let submit = document.createElement('input');
+      userName.type = "text";
+      userName.placeholder = `${this.name}`;
+      submit.type = "submit";
+      submit.value = "Change Name";
+      submit.classList.add('edit');
+      submit.classList.add('user');
+      form.appendChild(userName);
+      form.appendChild(submit);
+      loginDiv.appendChild(form);
+    })
     buttons.deleteButton.innerText = `Delete ${this.name}`;
     buttons.deleteButton.classList.add('delete');
     buttons.logoutButton.innerText = `Logout`;
     buttons.logoutButton.classList.add('logout');
-    
+
     loginDiv.innerText = `${this.name} is Currently Logged in.`
     loginDiv.classList.remove('hidden');
 
@@ -136,7 +150,9 @@ class User {
     }
   }
 }
-
+    // buttons.editButton.addEventListener('click', e => {
+    //   fetch(indexUrl + `users/${this.id}`, updateUserConfig(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
+    // });
 class Helper {
   static removeChildElements(parent) {
     if (parent.children.length > 0){
