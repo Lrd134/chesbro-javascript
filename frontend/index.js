@@ -28,6 +28,7 @@ class User {
   static getUser(name) {
     let user;
     fetch(indexUrl + `users/${name}`).then(resp => resp.json()).then(json => user = User.fromJson(json))
+    return user;
   }
   static getUsers() {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
@@ -38,7 +39,8 @@ class User {
       if (input.type === "text") textField = input;
     }
     e.preventDefault();
-    User.renderHighscore(textField.value);
+    let user = getUser(e.target.parentElement.innerText.split(" ")[0]);
+    User.renderHighscore(user, textField.value);
   }
   static createUser(e) {
     e.preventDefault();
