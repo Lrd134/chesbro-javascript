@@ -118,12 +118,15 @@ class User {
       editButton: document.createElement('button'),
       deleteButton: document.createElement('button'),
       logoutButton: document.createElement('button')
-    }
+    };
 
     buttons.editButton.innerText = `Edit ${this.name}`;
+    buttons.editButton.classList.add('edit');
     buttons.deleteButton.innerText = `Delete ${this.name}`;
+    buttons.deleteButton.classList.add('delete');
     buttons.logoutButton.innerText = `Logout`;
-
+    buttons.logoutButton.classList.add('logout');
+    
     loginDiv.innerText = `${this.name} is Currently Logged in.`
     loginDiv.classList.remove('hidden');
 
