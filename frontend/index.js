@@ -175,7 +175,16 @@ class User {
         hsInnerTextSplit.unshift(this.name);
         highscore.innerText = hsInnerTextSplit.join(" ");
 
-
+        let [login, editButton, deleteButton, logoutButton ] = 
+        [ document.getElementsByClassName('login')[0],
+        Helper.createEditButton(this.name),
+        Helper.createDeleteButton(this.name),
+        document.createElement('button')
+        ]
+        let loginTextSplit = login.innerText.split(' ').slice(0, 5);
+        loginTextSplit.shift();
+        loginTextSplit.unshift(this.name);
+        login.innerText = loginTextSplit.join(' ')
 
       }
     }
