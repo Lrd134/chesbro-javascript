@@ -64,7 +64,7 @@ class User {
     users.map(e => {
       const li = document.createElement('li');
       li.classList.add('highscore-actual')
-      li.innerText = `${e.name} has a highscore of ${e.highscore}.`
+      li.innerText = `${e.name} has a highscore of ${e.highscore}. `
       ul.appendChild(li);
     })
     Helper.removeChildElements(highscoreDiv);
@@ -140,10 +140,8 @@ class User {
       userName.placeholder = `${this.name}`;
       submit.type = "submit";
       submit.value = "Change Name";
-      userName.classList.add('edit');
-      userName.classList.add('user');
-      submit.classList.add('edit');
-      submit.classList.add('user');
+      userName.classList.add('edit', 'user');
+      submit.classList.add('edit', 'user');
       form.appendChild(userName);
       form.appendChild(submit);
       form.addEventListener('submit', User.updateUser);
@@ -181,10 +179,15 @@ class User {
         Helper.createDeleteButton(this.name),
         document.createElement('button')
         ]
+        logoutButton.classList.add('logout', 'user');
+        logoutButton.innerText = "Logout";
         let loginTextSplit = login.innerText.split(' ').slice(0, 5);
         loginTextSplit.shift();
         loginTextSplit.unshift(this.name);
         login.innerText = loginTextSplit.join(' ')
+        login.appendChild(editButton);
+        login.appendChild(deleteButton);
+        login.appendChild(logoutButton);
 
       }
     }
