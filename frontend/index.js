@@ -64,7 +64,24 @@ class User {
             }})
     }
   }
-  static createDestroyUserConfig(id) {
+  static updateUserConfig(id, name = "", highscore) {
+        return {
+  
+      headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+              user: {
+                      id: id,
+                      name: name,
+                      highscore: highscore
+              }})
+    }
+    
+  }
+  static destroyUserConfig(id) {
 
     return {
   
