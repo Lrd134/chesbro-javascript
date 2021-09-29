@@ -48,8 +48,10 @@ class User {
   }
 
   static renderHighscores(arrayOfUsers) {
+
     const users = arrayOfUsers;
     const highscoreDiv = document.getElementsByClassName('highscore')[0];
+    Helper.removeChildElements(highscoreDiv);
     const ul = document.createElement('ul');
     users.map(e => {
       const li = document.createElement('li');
@@ -113,5 +115,17 @@ class User {
   }
 
   static login(user) {
+
+  }
+}
+
+class Helper {
+  static removeChildElements(parent) {
+    if (parent.children.length > 1){
+      for (let child in parent.children)
+      {
+        parent.removeChild(parent.children[child]);
+      }
+    } 
   }
 }
