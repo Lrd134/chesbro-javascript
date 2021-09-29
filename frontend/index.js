@@ -44,12 +44,6 @@ class User {
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
-  static renderHighscore(user, name) {
-    let highscores = document.getElementsByClassName('highscore-actual');
-    for (let highscore of highscores) {
-      if (highscore.innerText === name) console.log(highscore);
-    }
-  }
   static renderUsers(jsonUsers) {
     const users = [];
     jsonUsers.data.forEach(e =>{
@@ -166,6 +160,13 @@ class User {
     for (let button in buttons) {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
+    }
+  }
+
+  renderHighscore(name) {
+    let highscores = document.getElementsByClassName('highscore-actual');
+    for (let highscore of highscores) {
+      if (highscore.innerText.split(" ")[0] === this.name) console.log(highscore);
     }
   }
 }
