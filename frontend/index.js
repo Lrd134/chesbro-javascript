@@ -87,7 +87,7 @@ class User {
     }
   }
 
-  static updateUserConfig(id, name = "", highscore) {
+  static updateUserConfig(name = "", highscore) {
         return {
   
       headers: {
@@ -97,7 +97,6 @@ class User {
       method: "POST",
       body: JSON.stringify({
               user: {
-                      id: id,
                       name: name,
                       highscore: highscore
               }})
