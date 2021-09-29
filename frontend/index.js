@@ -206,6 +206,7 @@ class Helper {
     let editButton = document.createElement('button');
     editButton.classList.add('edit');
     editButton.innerText = `Edit ${objectName}`;
+    editButton.addEventListener('click', Helper.userEditFormEvent);
     return editButton;
   }
   static userEditFormEvent(e) {
