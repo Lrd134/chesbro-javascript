@@ -34,8 +34,8 @@ class User {
       if (input.type === "text") textField = input;
     }
     e.preventDefault();
-    let user = getUser(e.target.parentElement.innerText.split(" ")[0]);
-    User.renderHighscore(user, textField.value);
+    let userName = e.target.parentElement.innerText.split(" ")[0]
+    fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(e.target.innerText))
   }
   static createUser(e) {
     e.preventDefault();
