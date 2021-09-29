@@ -34,14 +34,15 @@ class User {
       if (input.type === "text") textField = input;
     }
     e.preventDefault();
+
     let userName = e.target.parentElement.innerText.split(" ")[0]
-    fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(e.target.innerText))
+    fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => User.fromJson(json).renderHighscore(textField.value))
   }
   static createUser(e) {
     e.preventDefault();
     let user;
     const userName = document.getElementsByClassName('new-user-name')[0].value;
-    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => new User(parseInt(json.data.id, 10), json.data.attributes.name).login()).catch(error => console.log("error" + error));
+    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
   static renderUsers(jsonUsers) {
@@ -166,7 +167,22 @@ class User {
   renderHighscore(name) {
     let highscores = document.getElementsByClassName('highscore-actual');
     for (let highscore of highscores) {
-      if (highscore.innerText.split(" ")[0] === this.name) console.log(highscore);
+      if (highscore.innerText.split(" ")[0] === this.name) {
+        let split = highscore.innerText.split(" ");
+        let ul = highscore.parentElement;
+        let newScore = document.createElement('li');
+        let login = document.getElementsByClassName('login')[0];
+        let loginText = login.innerText.split(' ');
+        loginText.shift(name);
+        loginText.unshift(name);
+        login.innerText = loginText.join(' ')
+        newScore.classList.add('highscore-actual');
+        highscore.remove();
+        split.shift();
+        split.unshift(name);
+        newScore.innerText = split.join(" ");
+        ul.appendChild(newScore);
+      }
     }
   }
 }
