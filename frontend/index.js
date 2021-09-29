@@ -82,7 +82,7 @@ class User {
     method: "POST",
     body: JSON.stringify({
             user: {
-                    newName: userName,
+                    name: userName,
                     highscore: userHighscore
             }})
     }
@@ -98,7 +98,7 @@ class User {
       method: "POST",
       body: JSON.stringify({
               user: {
-                      name: name,
+                      newName: name,
                       highscore: highscore
               }})
     }
