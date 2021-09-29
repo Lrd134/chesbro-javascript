@@ -1,15 +1,7 @@
 const indexUrl = "http://localhost:3000/"
 
 const addEvents = () => {
-  document.getElementsByClassName('create-user')[0].addEventListener("submit", e => {
-    e.preventDefault();
-    const userName = document.getElementsByClassName('new-user-name')[0].value;
-    console.log("Before Fetch")
-    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => console.log(json)).catch(error => console.log("error" + error));
-    console.log("After fetch and before prevent default")
-    
-    console.log("After preventDefault");
-  })
+  document.getElementsByClassName('create-user')[0].addEventListener("submit", User.createUser)
 }
 
 
@@ -31,10 +23,17 @@ class User {
   }
   
   static getUsers() {
-    fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.createUsers(json)).catch(error => error);
+    fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
 
-  static createUsers(jsonUsers) {
+  static createUser(e) {
+    e.preventDefault();
+    const userName = document.getElementsByClassName('new-user-name')[0].value;
+    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => User.getUsers()).catch(error => console.log("error" + error));
+  }
+
+  static renderUsers(jsonUsers) {
+    debugger;
     const users = [];
     jsonUsers.data.forEach(e =>{
       users.push(new User(e.id, e.attributes.name, e.attributes.highscore))
@@ -43,6 +42,7 @@ class User {
     return users;
 
   }
+
   static renderHighscores(arrayOfUsers) {
     const users = arrayOfUsers;
     const highscoreDiv = document.getElementsByClassName('highscore')[0];
@@ -56,6 +56,7 @@ class User {
     highscoreDiv.appendChild(ul);
     
   }
+
   static createUserConfig(userName, userHighscore = 0) {
     return {
   
