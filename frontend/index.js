@@ -22,6 +22,7 @@ class User {
     this.name = name;
     this.highscore = highscore;
   }
+
   static fromJson(json) {
     return new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore)
   }
@@ -29,6 +30,7 @@ class User {
   static getUsers() {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
+
   static updateUser(e) {
     let newName;
     for (let input of e.target.children) {
@@ -40,6 +42,7 @@ class User {
     let userName = e.target.parentElement.innerText.split(" ")[0];
     fetch(indexUrl + `users/${userName}`, User.updateUserConfig(newName)).then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
   }
+
   static createUser(e) {
     e.preventDefault();
     let user;
@@ -48,6 +51,7 @@ class User {
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
+
   static renderUsers(jsonUsers) {
     const users = [];
     jsonUsers.data.forEach(e =>{
@@ -57,6 +61,7 @@ class User {
     return users;
 
   }
+
 
   static renderHighscores(arrayOfUsers) {
 
@@ -123,6 +128,7 @@ class User {
     }
     
   }
+
   createUserButtons() {
     return {
       deleteButton: Helper.createDeleteButton(this.name),
@@ -130,9 +136,10 @@ class User {
       logoutButton: Helper.createLogoutButton()
     }
   }
+
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
-    let buttons = this.createUserButtons
+    let buttons = this.createUserButtons()
 
     loginDiv.innerText = `${this.name} is Currently Logged in.`
     loginDiv.classList.remove('hidden');
@@ -167,6 +174,7 @@ class User {
       }
     }
   }
+  
 }
 
 
