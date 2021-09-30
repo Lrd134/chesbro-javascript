@@ -35,7 +35,7 @@ class User {
       });
       this.renderHighscores();
     }).catch(error => error);
-    
+
   }
 
   static updateUser(e) {
@@ -69,7 +69,10 @@ class User {
     let userName = e.target.parentElement.innerText.split(" ")[0];
     
     fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
-    then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
+    then(resp => resp.json()).then(json => {
+      User.fromJson(json)
+      User.renderHighscores()
+  })
   }
 
   static createUser(e) {
@@ -92,8 +95,11 @@ class User {
     let user;
     const userName = document.getElementsByClassName('new-user-name')[0].value;
     document.getElementsByClassName('new-user-name')[0].value = "";
-    fetch(indexUrl + "users", createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
-    User.getUsers()
+    fetch(indexUrl + "users", createConfigObj(userName)).then(resp => resp.json()).then(json => {
+      User.fromJson(json).login()
+      User.renderHighscores();
+    }).catch(error => console.log("error" + error));
+    
   }
 
   static login(e) {
@@ -121,11 +127,9 @@ class User {
     }
   }
 
+  static renderHighscores() {
 
-
-  static renderHighscores(arrayOfUsers) {
-
-    const users = arrayOfUsers;
+    const users = this.all;
     const highscoreDiv = document.getElementsByClassName('highscore')[0];
     const ul = document.createElement('ul');
     users.map(e => {
@@ -229,31 +233,6 @@ class User {
     for (let button in buttons) {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
-    }
-  }
-  
-  updateHighscore(name) {
-    let highscores = document.getElementsByClassName('highscore-actual');
-
-    for (let highscore of highscores) {
-      const hsInnerTextSplit = highscore.innerText.split(' ');
-      if (highscore.innerText.split(" ")[0] === name) {
-
-        hsInnerTextSplit.shift();
-        hsInnerTextSplit.unshift(this.name);
-        highscore.innerText = hsInnerTextSplit.join(" ");
-
-        const login = document.getElementsByClassName('login')[0]
-        const { editButton, deleteButton, logoutButton } = this.createUserButtons();
-        const loginTextSplit = login.innerText.replace('.', ' ').split(' ').slice(0, 5);
-        loginTextSplit.shift();
-        loginTextSplit.unshift(this.name);
-        login.innerText = loginTextSplit.join(' ') + '.';
-        login.appendChild(editButton);
-        login.appendChild(deleteButton);
-        login.appendChild(logoutButton);
-
-      }
     }
   }
 
