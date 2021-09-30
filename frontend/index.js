@@ -32,24 +32,62 @@ class User {
   }
 
   static updateUser(e) {
+    
+    const updateConfigObj = (name = "", highscore = 0) => {
+      
+      return {
+                headers: {
+                  "Content-Type": "application/json",
+                  Accept: "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({
+                      user: {
+                              newName: name,
+                              highscore: highscore
+                      }})
+              }
+                
+    }
+    
     let newName;
+    
     for (let input of e.target.children) {
       if (input.type === "text") {
         newName = input.value;
       }
     }
     e.preventDefault();
+    
     let userName = e.target.parentElement.innerText.split(" ")[0];
-    fetch(indexUrl + `users/${userName}`, User.updateConfigObj(newName)).then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
+    
+    fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
+    then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
   }
 
   static createUser(e) {
     e.preventDefault();
+    const createConfigObj = (userName, userHighscore = 0) => {
+      return {
+    
+      headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify({
+              user: {
+                      name: userName,
+                      highscore: userHighscore
+              }})
+      }
+    }
     let user;
     const userName = document.getElementsByClassName('new-user-name')[0].value;
     document.getElementsByClassName('new-user-name')[0].value = "";
-    fetch(indexUrl + "users", User.createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
+    fetch(indexUrl + "users", createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
     User.getUsers()
+
   }
 
   static renderUsers(jsonUsers) {
@@ -78,38 +116,9 @@ class User {
     
   }
 
-  static createConfigObj(userName, userHighscore = 0) {
-    return {
-  
-    headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-    },
-    method: "POST",
-    body: JSON.stringify({
-            user: {
-                    name: userName,
-                    highscore: userHighscore
-            }})
-    }
-  }
 
-  static updateConfigObj(name = "", highscore = 0) {
-        return {
-  
-      headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({
-              user: {
-                      newName: name,
-                      highscore: highscore
-              }})
-    }
-    
-  }
+
+
 
   static destroyConfigObj(name) {
 
