@@ -15,10 +15,12 @@ document.addEventListener("DOMContentLoaded", e =>{
 
 class User {
 
+  static all = [];
   constructor(id, name = "Example", highscore = 0) {
     this.id = id;
     this.name = name;
     this.highscore = highscore;
+    User.all.push(this);
   }
 
   static fromJson(json) {
@@ -85,7 +87,31 @@ class User {
     document.getElementsByClassName('new-user-name')[0].value = "";
     fetch(indexUrl + "users", createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
     User.getUsers()
+  }
 
+  static login(e) {
+    e.preventDefault()
+    let userName;
+    for (let child of e.target.children){ 
+      if ( child.classList.value === "existing-user-name" )  {
+          userName = child.value;
+      }
+    }
+    
+    if (userName && userName !== '') {
+      fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => {
+          if (json.data) {
+
+            User.fromJson(json).login()
+          }
+        });
+    }
+    else
+    {
+      Helper.createAlert({
+        message: "You must provide a username!"
+      })
+    }
   }
 
   static renderUsers(jsonUsers) {
@@ -193,25 +219,6 @@ class User {
 
   }
 
-  static login(e) {
-    e.preventDefault()
-    let userName;
-    for (let child of e.target.children){ 
-      if ( child.classList.value === "existing-user-name" )  {
-          userName = child.value;
-      }
-    }
-    
-    if (userName && child.value !== '') {
-      fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => User.fromJson(json).login());
-    }
-    else
-    {
-      Helper.createAlert({
-        message: "You must provide a username!"
-      })
-    }
-  }
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
