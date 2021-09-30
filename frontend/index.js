@@ -175,6 +175,7 @@ class User {
       deleteButton.innerText = `Delete ${userName}`;
       deleteButton.addEventListener('click', function(e){      
         fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
+            Helper.createAlert(json);
             document.getElementsByClassName('login')[0].classList.add('hidden');
             User.getUsers();
         })
@@ -206,7 +207,9 @@ class User {
     }
     else
     {
-
+      Helper.createAlert({
+        message: "You must provide a username!"
+      })
     }
   }
 
