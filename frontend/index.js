@@ -25,6 +25,7 @@ class User {
   static fromJson(json) {
     return new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore)
   }
+
   static getUsers() {
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
   }
@@ -125,11 +126,7 @@ class User {
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
-    let buttons = {
-      editButton: document.createElement('button'),
-      deleteButton: document.createElement('button'),
-      logoutButton: document.createElement('button')
-    };
+    let buttons = Helper.createButtons(this.name);
 
     buttons.editButton.innerText = `Edit ${this.name}`;
     buttons.editButton.classList.add('edit');
@@ -180,10 +177,8 @@ class User {
         [ document.getElementsByClassName('login')[0],
         Helper.createEditButton(this.name),
         Helper.createDeleteButton(this.name),
-        document.createElement('button')
+        Helper.createLogoutButton()
         ]
-        logoutButton.classList.add('logout', 'user');
-        logoutButton.innerText = "Logout";
         let loginTextSplit = login.innerText.replace('.', ' ').split(' ').slice(0, 5);
         loginTextSplit.shift();
         loginTextSplit.unshift(this.name);
@@ -202,6 +197,13 @@ class User {
     //   fetch(indexUrl + `users/${this.id}`, updateUserConfig(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
     // });
 class Helper {
+  static createUserButtons(name) {
+    return {
+      deleteButton: this.createDeleteButton(name),
+      editButton: this.createEditButton(name),
+      logoutButton: this.createLogoutButton()
+    }
+  }
   static removeChildElements(parent) {
     if (parent.children.length > 0){
       for (let int = 0; int < parent.children.length; int++)
@@ -215,6 +217,18 @@ class Helper {
     let deleteButton = document.createElement('button');
     deleteButton.classList.add('delete');
     deleteButton.innerText = `Delete ${objectName}`;
+    deleteButton.addEventListener('click', function(e){      
+      fetch(indexUrl + `users/${objectName}`, User.destroyUserConfig(objectName)).then(resp => resp.json()).then(json => {
+          const alert = document.getElementsByClassName('alert')[0]
+          alert.classList.remove('hidden');
+          alert.innerText = json.message
+          setTimeout(e => {
+            alert.classList.add('hidden')
+          }, 5000)
+          document.getElementsByClassName('login')[0].classList.add('hidden');
+          User.getUsers();
+      })
+    })
     return deleteButton;
     
 
@@ -227,6 +241,16 @@ class Helper {
     editButton.addEventListener('click', Helper.userEditFormEvent);
     return editButton;
   }
+
+  static createLogoutButton() {
+    let logoutButton = document.createElement('button');
+    logoutButton.innerText = `Logout`;
+    logoutButton.classList.add('logout');
+    logoutButton.addEventListener('click', e => {
+      document.getElementsByClassName('login')[0].classList.add('hidden');
+    })
+  }
+
   static userEditFormEvent(e) {
     const loginDiv = document.getElementsByClassName('login')[0];
     const editForm = document.createElement('form');
