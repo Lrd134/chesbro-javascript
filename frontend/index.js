@@ -126,32 +126,7 @@ class User {
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
-    let buttons = Helper.createButtons(this.name);
-
-    buttons.editButton.innerText = `Edit ${this.name}`;
-    buttons.editButton.classList.add('edit');
-    buttons.editButton.addEventListener('click', Helper.userEditFormEvent)
-    buttons.deleteButton.innerText = `Delete ${this.name}`;
-    buttons.deleteButton.classList.add('delete');
-    buttons.deleteButton.addEventListener('click', function(e){
-      e.target.innerText.split(' ');
-      let name = e.target.innerText.split(' ')[1];
-      fetch(indexUrl + `users/${name}`, User.destroyUserConfig(name)).then(resp => resp.json()).then(json => {
-          const alert = document.getElementsByClassName('alert')[0]
-          alert.classList.remove('hidden');
-          alert.innerText = json.message
-          setTimeout(e => {
-            alert.classList.add('hidden')
-          }, 5000)
-          document.getElementsByClassName('login')[0].classList.add('hidden');
-          User.getUsers();
-      })
-    })
-    buttons.logoutButton.innerText = `Logout`;
-    buttons.logoutButton.classList.add('logout');
-    buttons.logoutButton.addEventListener('click', e => {
-      document.getElementsByClassName('login')[0].classList.add('hidden');
-    })
+    let buttons = Helper.createUserButtons(this.name);
 
     loginDiv.innerText = `${this.name} is Currently Logged in.`
     loginDiv.classList.remove('hidden');
@@ -249,6 +224,7 @@ class Helper {
     logoutButton.addEventListener('click', e => {
       document.getElementsByClassName('login')[0].classList.add('hidden');
     })
+    return logoutButton
   }
 
   static userEditFormEvent(e) {
