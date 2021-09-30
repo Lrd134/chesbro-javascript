@@ -145,6 +145,8 @@ class User {
           setTimeout(e => {
             alert.classList.add('hidden')
           }, 5000)
+          document.getElementsByClassName('login')[0].classList.add('hidden');
+          User.getUsers();
       })
     })
     buttons.logoutButton.innerText = `Logout`;
