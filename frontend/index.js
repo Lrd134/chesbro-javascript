@@ -62,7 +62,6 @@ class User {
 
   }
 
-
   static renderHighscores(arrayOfUsers) {
 
     const users = arrayOfUsers;
@@ -79,7 +78,7 @@ class User {
     
   }
 
-  static createUserConfig(userName, userHighscore = 0) {
+  static createConfigObj(userName, userHighscore = 0) {
     return {
   
     headers: {
@@ -95,7 +94,7 @@ class User {
     }
   }
 
-  static updateUserConfig(name = "", highscore = 0) {
+  static updateConfigObj(name = "", highscore = 0) {
         return {
   
       headers: {
@@ -112,7 +111,7 @@ class User {
     
   }
 
-  static destroyUserConfig(name) {
+  static destroyConfigObj(name) {
 
     return {
   
@@ -131,11 +130,52 @@ class User {
 
   createUserButtons() {
     return {
-      deleteButton: Helper.createDeleteButton(this.name),
-      editButton: Helper.createEditButton(this.name),
-      logoutButton: Helper.createLogoutButton()
+      deleteButton: createDeleteButton(),
+      editButton: createEditButton(),
+      logoutButton: createLogoutButton()
+    }
+
+    const createLogoutButton = () => {
+      let logoutButton = document.createElement('button');
+      logoutButton.innerText = `Logout`;
+      logoutButton.classList.add('logout');
+      logoutButton.addEventListener('click', e => {
+        document.getElementsByClassName('login')[0].classList.add('hidden');
+      })
+      return logoutButton
+    }
+
+    const createEditButton = () => {
+      let editButton = document.createElement('button');
+      editButton.classList.add('edit');
+      editButton.innerText = `Edit ${this.name}`;
+      editButton.addEventListener('click', Helper.userEditFormEvent);
+      return editButton;
+    }
+
+    const createDeleteButton = () => {
+      let deleteButton = document.createElement('button');
+      deleteButton.classList.add('delete');
+      deleteButton.innerText = `Delete ${this.name}`;
+      deleteButton.addEventListener('click', function(e){      
+        fetch(indexUrl + `users/${this.name}`, User.destroyUserConfig(this.name)).then(resp => resp.json()).then(json => {
+            const alert = document.getElementsByClassName('alert')[0]
+            alert.classList.remove('hidden');
+            alert.innerText = json.message
+            setTimeout(e => {
+              alert.classList.add('hidden')
+            }, 5000)
+            document.getElementsByClassName('login')[0].classList.add('hidden');
+            User.getUsers();
+        })
+      })
+      return deleteButton;
+      
+  
     }
   }
+
+
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
@@ -174,7 +214,7 @@ class User {
       }
     }
   }
-  
+
 }
 
 
@@ -192,44 +232,11 @@ class Helper {
     } 
   }
 
-  static createDeleteButton(objectName) {
-    let deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete');
-    deleteButton.innerText = `Delete ${objectName}`;
-    deleteButton.addEventListener('click', function(e){      
-      fetch(indexUrl + `users/${objectName}`, User.destroyUserConfig(objectName)).then(resp => resp.json()).then(json => {
-          const alert = document.getElementsByClassName('alert')[0]
-          alert.classList.remove('hidden');
-          alert.innerText = json.message
-          setTimeout(e => {
-            alert.classList.add('hidden')
-          }, 5000)
-          document.getElementsByClassName('login')[0].classList.add('hidden');
-          User.getUsers();
-      })
-    })
-    return deleteButton;
-    
 
-  }
 
-  static createEditButton(objectName) {
-    let editButton = document.createElement('button');
-    editButton.classList.add('edit');
-    editButton.innerText = `Edit ${objectName}`;
-    editButton.addEventListener('click', Helper.userEditFormEvent);
-    return editButton;
-  }
 
-  static createLogoutButton() {
-    let logoutButton = document.createElement('button');
-    logoutButton.innerText = `Logout`;
-    logoutButton.classList.add('logout');
-    logoutButton.addEventListener('click', e => {
-      document.getElementsByClassName('login')[0].classList.add('hidden');
-    })
-    return logoutButton
-  }
+
+
 
   static userEditFormEvent(e) {
     const loginDiv = document.getElementsByClassName('login')[0];
