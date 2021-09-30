@@ -12,11 +12,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
-    if user.save
+    user = User.find_or_create_by(name: params[:user][:name])
+    if user
       render json: serialize_user(user)
-    else
-      render json: {message: "error" }.to_json
     end
     
   end

@@ -2,8 +2,7 @@
 const indexUrl = "http://localhost:3000/"
 
 const addEvents = () => {
-  document.getElementsByClassName('create-user')[0].addEventListener("submit", User.createUser)
-  document.getElementsByClassName('existing-user')[0].addEventListener("submit", User.login)
+  document.getElementsByClassName('user')[0].addEventListener("submit", User.login)
 }
 
 
@@ -24,7 +23,12 @@ class User {
   }
 
   static fromJson(json) {
-    return new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore)
+    if (User.all.find(e => {
+      let dajson = json;
+      debugger;
+    })){
+      new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore) 
+    }
   }
 
   static getUsers() {
