@@ -3,6 +3,7 @@ const indexUrl = "http://localhost:3000/"
 
 const addEvents = () => {
   document.getElementsByClassName('create-user')[0].addEventListener("submit", User.createUser)
+  document.getElementsByClassName('existing-user')[0].addEventListener("submit", User.login)
 }
 
 
@@ -11,9 +12,6 @@ document.addEventListener("DOMContentLoaded", e =>{
   User.getUsers();
 })
 
-
-// 
-// 
 
 class User {
 
@@ -116,10 +114,6 @@ class User {
     
   }
 
-
-
-
-
   static destroyConfigObj(name) {
 
     return {
@@ -196,15 +190,32 @@ class User {
   
     }
 
-
     return {
       deleteButton: createDeleteButton(),
       editButton: createEditButton(),
       logoutButton: createLogoutButton()
     }
+
   }
 
-
+  static login(e) {
+    e.preventDefault()
+    debugger;
+    let userName;
+    for (let child of e.target.children){ 
+      if ( child.classList.value === "existing-user-name" )  {
+          userName = child.value;
+      }
+    }
+    
+    if (userName && child.value !== '') {
+      fetch(indexUrl + `users/${userName}`).then(resp => resp.json()).then(json => User.fromJson(json).login());
+    }
+    else
+    {
+      
+    }
+  }
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
@@ -246,10 +257,6 @@ class User {
 
 }
 
-
-    // buttons.editButton.addEventListener('click', e => {
-    //   fetch(indexUrl + `users/${this.id}`, updateConfigObj(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
-    // });
 class Helper {
 
   static removeChildElements(parent) {
