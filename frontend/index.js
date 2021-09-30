@@ -28,7 +28,14 @@ class User {
   }
 
   static getUsers() {
-    fetch(indexUrl + "users").then(resp => resp.json()).then(json => User.renderUsers(json)).catch(error => error);
+
+    fetch(indexUrl + "users").then(resp => resp.json()).then(json => {
+      json.data.forEach(e =>{
+        new User(e.id, e.attributes.name, e.attributes.highscore)
+      });
+      this.renderHighscores();
+    }).catch(error => error);
+    
   }
 
   static updateUser(e) {
@@ -114,15 +121,7 @@ class User {
     }
   }
 
-  static renderUsers(jsonUsers) {
-    const users = [];
-    jsonUsers.data.forEach(e =>{
-      users.push(new User(e.id, e.attributes.name, e.attributes.highscore))
-    });
-    this.renderHighscores(users);
-    return users;
 
-  }
 
   static renderHighscores(arrayOfUsers) {
 
