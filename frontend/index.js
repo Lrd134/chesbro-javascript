@@ -75,19 +75,6 @@ class User {
   })
   }
 
-  static createUser(e) {
-    e.preventDefault();
-
-    let user;
-    const userName = document.getElementsByClassName('new-user-name')[0].value;
-    document.getElementsByClassName('new-user-name')[0].value = "";
-    fetch(indexUrl + "users", createConfigObj(userName)).then(resp => resp.json()).then(json => {
-      User.fromJson(json).login()
-      User.renderHighscores();
-    }).catch(error => console.log("error" + error));
-    
-  }
-
   static login(e) {
     e.preventDefault()
     const createConfigObj = (userName, userHighscore = 0) => {
