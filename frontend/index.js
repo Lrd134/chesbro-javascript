@@ -175,12 +175,6 @@ class User {
       deleteButton.innerText = `Delete ${userName}`;
       deleteButton.addEventListener('click', function(e){      
         fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
-            const alert = document.getElementsByClassName('alert')[0]
-            alert.classList.remove('hidden');
-            alert.innerText = json.message
-            setTimeout(e => {
-              alert.classList.add('hidden')
-            }, 5000)
             document.getElementsByClassName('login')[0].classList.add('hidden');
             User.getUsers();
         })
@@ -200,7 +194,6 @@ class User {
 
   static login(e) {
     e.preventDefault()
-    debugger;
     let userName;
     for (let child of e.target.children){ 
       if ( child.classList.value === "existing-user-name" )  {
@@ -213,7 +206,7 @@ class User {
     }
     else
     {
-      
+
     }
   }
 
@@ -267,5 +260,14 @@ class Helper {
       }
     } 
   }
-
+  static createAlert(objectWithMessage = {
+    message: "Error has occured."
+  }) {
+    const alert = document.getElementsByClassName('alert')[0]
+    alert.classList.remove('hidden');
+    alert.innerText = objectWithMessage.message
+    setTimeout(e => {
+      alert.classList.add('hidden')
+    }, 7500)
+  }
 }
