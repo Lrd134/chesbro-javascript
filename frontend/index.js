@@ -40,7 +40,7 @@ class User {
     }
     e.preventDefault();
     let userName = e.target.parentElement.innerText.split(" ")[0];
-    fetch(indexUrl + `users/${userName}`, User.updateUserConfig(newName)).then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
+    fetch(indexUrl + `users/${userName}`, User.updateConfigObj(newName)).then(resp => resp.json()).then(json => User.fromJson(json).updateHighscore(userName))
   }
 
   static createUser(e) {
@@ -48,7 +48,7 @@ class User {
     let user;
     const userName = document.getElementsByClassName('new-user-name')[0].value;
     document.getElementsByClassName('new-user-name')[0].value = "";
-    fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
+    fetch(indexUrl + "users", User.createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
 
@@ -129,10 +129,22 @@ class User {
   }
 
   createUserButtons() {
-    return {
-      deleteButton: createDeleteButton(),
-      editButton: createEditButton(),
-      logoutButton: createLogoutButton()
+
+    const userEditFormEvent = (e) => {
+      const loginDiv = document.getElementsByClassName('login')[0];
+      const editForm = document.createElement('form');
+      const nameInput = document.createElement('input');
+      const nameSubmit = document.createElement('input');
+      nameInput.type = "text";
+      nameInput.placeholder = `${this.name}`;
+      nameSubmit.type = "submit";
+      nameSubmit.value = "Change Name";
+      nameInput.classList.add('edit', 'user');
+      nameSubmit.classList.add('edit', 'user');
+      editForm.appendChild(nameInput);
+      editForm.appendChild(nameSubmit);
+      editForm.addEventListener('submit', User.updateUser);
+      loginDiv.appendChild(editForm);
     }
 
     const createLogoutButton = () => {
@@ -149,16 +161,17 @@ class User {
       let editButton = document.createElement('button');
       editButton.classList.add('edit');
       editButton.innerText = `Edit ${this.name}`;
-      editButton.addEventListener('click', Helper.userEditFormEvent);
+      editButton.addEventListener('click', userEditFormEvent);
       return editButton;
     }
 
     const createDeleteButton = () => {
+      let userName = this.name;
       let deleteButton = document.createElement('button');
       deleteButton.classList.add('delete');
-      deleteButton.innerText = `Delete ${this.name}`;
+      deleteButton.innerText = `Delete ${userName}`;
       deleteButton.addEventListener('click', function(e){      
-        fetch(indexUrl + `users/${this.name}`, User.destroyUserConfig(this.name)).then(resp => resp.json()).then(json => {
+        fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
             const alert = document.getElementsByClassName('alert')[0]
             alert.classList.remove('hidden');
             alert.innerText = json.message
@@ -172,6 +185,13 @@ class User {
       return deleteButton;
       
   
+    }
+
+
+    return {
+      deleteButton: createDeleteButton(),
+      editButton: createEditButton(),
+      logoutButton: createLogoutButton()
     }
   }
 
@@ -219,7 +239,7 @@ class User {
 
 
     // buttons.editButton.addEventListener('click', e => {
-    //   fetch(indexUrl + `users/${this.id}`, updateUserConfig(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
+    //   fetch(indexUrl + `users/${this.id}`, updateConfigObj(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
     // });
 class Helper {
 
@@ -232,26 +252,4 @@ class Helper {
     } 
   }
 
-
-
-
-
-
-
-  static userEditFormEvent(e) {
-    const loginDiv = document.getElementsByClassName('login')[0];
-    const editForm = document.createElement('form');
-    const nameInput = document.createElement('input');
-    const nameSubmit = document.createElement('input');
-    nameInput.type = "text";
-    nameInput.placeholder = `${this.name}`;
-    nameSubmit.type = "submit";
-    nameSubmit.value = "Change Name";
-    nameInput.classList.add('edit', 'user');
-    nameSubmit.classList.add('edit', 'user');
-    editForm.appendChild(nameInput);
-    editForm.appendChild(nameSubmit);
-    editForm.addEventListener('submit', User.updateUser);
-    loginDiv.appendChild(editForm);
-  }
 }
