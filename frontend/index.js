@@ -105,7 +105,7 @@ class User {
     
   }
 
-  static destroyUserConfig(id) {
+  static destroyUserConfig(name) {
 
     return {
   
@@ -116,7 +116,7 @@ class User {
       method: "DELETE",
       body: JSON.stringify({
               user: {
-                      id: id
+                      name: name
               }})
     }
     
@@ -135,6 +135,18 @@ class User {
     buttons.editButton.addEventListener('click', Helper.userEditFormEvent)
     buttons.deleteButton.innerText = `Delete ${this.name}`;
     buttons.deleteButton.classList.add('delete');
+    buttons.deleteButton.addEventListener('click', function(e){
+      e.target.innerText.split(' ');
+      let name = e.target.innerText.split(' ')[1];
+      fetch(indexUrl + `users/${name}`, User.destroyUserConfig(name)).then(resp => resp.json()).then(json => {
+          const alert = document.getElementsByClassName('alert')[0]
+          alert.classList.remove('hidden');
+          alert.innerText = json.message
+          setTimeout(e => {
+            alert.classList.add('hidden')
+          }, 5000)
+      })
+    })
     buttons.logoutButton.innerText = `Logout`;
     buttons.logoutButton.classList.add('logout');
 
@@ -146,7 +158,7 @@ class User {
       loginDiv.appendChild(buttons[button])
     }
   }
-
+  
   updateHighscore(name) {
     let highscores = document.getElementsByClassName('highscore-actual');
 

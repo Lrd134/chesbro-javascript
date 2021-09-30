@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     if user.save
       render json: serialize_user(user)
     else
-      render json: "error"
+      render json: {message: "error" }.to_json
     end
     
   end
@@ -26,12 +26,12 @@ class UsersController < ApplicationController
     if user.update(name: params[:user][:newName], highscore: params[:user][:highscore])
       render json: serialize_user(user)
     else
-      render json: "error";
+      render json: {message: "error" }.to_json
     end
   end
 
   def destroy
-    user = User.find_by(id: params[:id])
+    user = User.find_by(name: params[:name])
     user.destroy
     
     if user.destroyed?
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
         message: "Destroyed successfully."
     }.to_json
     else
-      render json: "error";
+      render json: {message: "error" }.to_json
     end
   end
 
