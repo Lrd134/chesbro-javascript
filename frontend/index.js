@@ -43,6 +43,7 @@ class User {
     e.preventDefault();
     let user;
     const userName = document.getElementsByClassName('new-user-name')[0].value;
+    document.getElementsByClassName('new-user-name')[0].value = "";
     fetch(indexUrl + "users", User.createUserConfig(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login()).catch(error => console.log("error" + error));
     User.getUsers()
   }
@@ -151,6 +152,9 @@ class User {
     })
     buttons.logoutButton.innerText = `Logout`;
     buttons.logoutButton.classList.add('logout');
+    buttons.logoutButton.addEventListener('click', e => {
+      document.getElementsByClassName('login')[0].classList.add('hidden');
+    })
 
     loginDiv.innerText = `${this.name} is Currently Logged in.`
     loginDiv.classList.remove('hidden');
