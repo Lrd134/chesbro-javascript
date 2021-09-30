@@ -123,10 +123,16 @@ class User {
     }
     
   }
-
+  createUserButtons() {
+    return {
+      deleteButton: Helper.createDeleteButton(this.name),
+      editButton: Helper.createEditButton(this.name),
+      logoutButton: Helper.createLogoutButton()
+    }
+  }
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
-    let buttons = Helper.createUserButtons(this.name);
+    let buttons = this.createUserButtons
 
     loginDiv.innerText = `${this.name} is Currently Logged in.`
     loginDiv.classList.remove('hidden');
@@ -148,13 +154,9 @@ class User {
         hsInnerTextSplit.unshift(this.name);
         highscore.innerText = hsInnerTextSplit.join(" ");
 
-        let [login, editButton, deleteButton, logoutButton ] = 
-        [ document.getElementsByClassName('login')[0],
-        Helper.createEditButton(this.name),
-        Helper.createDeleteButton(this.name),
-        Helper.createLogoutButton()
-        ]
-        let loginTextSplit = login.innerText.replace('.', ' ').split(' ').slice(0, 5);
+        const login = document.getElementsByClassName('login')[0]
+        const { editButton, deleteButton, logoutButton } = this.createUserButtons();
+        const loginTextSplit = login.innerText.replace('.', ' ').split(' ').slice(0, 5);
         loginTextSplit.shift();
         loginTextSplit.unshift(this.name);
         login.innerText = loginTextSplit.join(' ') + '.';
@@ -172,13 +174,7 @@ class User {
     //   fetch(indexUrl + `users/${this.id}`, updateUserConfig(this.id, this.name, this.highscore)).then(resp => resp.json).then(json => console.log(json));
     // });
 class Helper {
-  static createUserButtons(name) {
-    return {
-      deleteButton: this.createDeleteButton(name),
-      editButton: this.createEditButton(name),
-      logoutButton: this.createLogoutButton()
-    }
-  }
+
   static removeChildElements(parent) {
     if (parent.children.length > 0){
       for (let int = 0; int < parent.children.length; int++)
