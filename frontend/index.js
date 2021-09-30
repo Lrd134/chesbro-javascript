@@ -23,10 +23,9 @@ class User {
   }
 
   static fromJson(json) {
-    if (User.all.find(e => {
-      let dajson = json;
-      debugger;
-    })){
+    if (!User.all.find(e => {
+      json.data.id === e.id;
+      })){
       new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore) 
     }
   }
@@ -104,7 +103,7 @@ class User {
     }
     
     if (userName && userName !== '') {
-      fetch(indexUrl + `users/${userName}`, createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login());
+      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login());
     }
     else
     {
