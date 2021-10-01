@@ -11,6 +11,72 @@ document.addEventListener("DOMContentLoaded", e =>{
   User.getUsers();
 })
 
+class Player {
+  // static canvas = Game.canvas;
+  static current_player = []
+  constructor(x = 8, y = 8, radius= 5) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    Player.current_player.push(this);
+  }
+  move(e) {
+    switch(e.key){
+
+    case ('a'): {
+      if (Player.current_player[0].x > 8)
+        Player.current_player[0].x -= Game.dx;
+      break;
+    }
+    
+    case('d'): {
+      if (Player.current_player[0].x < 472)
+        Player.current_player[0].x += Game.dx;
+      break;
+    }
+
+    case('w'): {
+      if (Player.current_player[0].y > 8)
+        Player.current_player[0].y -= Game.dy;
+      break;
+    }
+
+    case('s'): {
+      if (Player.current_player[0].y < 312)
+        Player.current_player[0].y += Game.dy;
+      break;
+    }
+
+    case('ArrowRight'): {
+      if (Player.current_player[0].x < 472)
+        Player.current_player[0].x += Game.dx;
+      break;
+    }
+
+    case('ArrowLeft'): {
+      if (Player.current_player[0].x > 8)
+        Player.current_player[0].x -= Game.dx;
+      break;
+    }
+
+    case('ArrowUp'): {
+      if (Player.current_player[0].y > 8)
+        Player.current_player[0].y -= Game.dy;
+      break;
+    }
+
+    case('ArrowDown'): {
+      if (Player.current_player[0].y < 312)
+        Player.current_player[0].y += Game.dy;
+      break;
+    }
+    default:
+      console.log(e.key + " is not usable input.");
+    }
+  }
+
+}
+
 class Game {
   static canvas = document.getElementById('gameBackground');
   static ctx = Game.canvas.getContext('2d');
