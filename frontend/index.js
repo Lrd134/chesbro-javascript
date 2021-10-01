@@ -198,6 +198,7 @@ class User {
         fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
             Helper.createAlert(json);
             document.getElementsByClassName('login')[0].classList.add('hidden');
+            User.renderHighscores();
         })
       })
       return deleteButton;
