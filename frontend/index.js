@@ -23,13 +23,16 @@ class User {
   }
 
   static fromJson(json) {
-    if (!User.all.find(e => {
-      json.data.id === e.id;
-      })){
+    let user = User.all.find(e => {
+      if (json.data.id === e.id) return e;
+      })
+    if (!user){
       new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore) 
-    }
+    } else
+    return user;
   }
 
+  
   static getUsers() {
 
     fetch(indexUrl + "users").then(resp => resp.json()).then(json => {
@@ -70,10 +73,10 @@ class User {
     e.preventDefault();
     
     let userName = e.target.parentElement.innerText.split(" ")[0];
-    
+
     fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
     then(resp => resp.json()).then(json => {
-      User.fromJson(json)
+      User.fromJson(json).login()
       User.renderHighscores()
   })
   }
@@ -128,7 +131,7 @@ class User {
     highscoreDiv.appendChild(ul);
     
   }
-
+  
   static destroyConfigObj(name) {
 
     return {
@@ -207,7 +210,6 @@ class User {
     }
 
   }
-
 
   login() {
     const loginDiv = document.getElementsByClassName('login')[0];
