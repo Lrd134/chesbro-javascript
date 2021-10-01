@@ -16,9 +16,9 @@ class User {
 
   static all = [];
   constructor(id, name = "Example", highscore = 0) {
-    this.id = id;
+    this.id = parseInt(id, 10);
     this.name = name;
-    this.highscore = highscore;
+    this.highscore = parseInt(highscore, 10);
     User.all.push(this);
   }
 
@@ -27,7 +27,7 @@ class User {
       if (json.data.id === e.id) return e;
       })
     if (!user){
-      new User(parseInt(json.data.id, 10), json.data.attributes.name, json.data.attributes.highscore) 
+      return new User(parseInt(json.data.id, 10), json.data.attributes.name, parseInt(json.data.attributes.highscore, 10)) 
     } else
     return user;
   }
@@ -73,15 +73,18 @@ class User {
     e.preventDefault();
     
     let userName = e.target.parentElement.innerText.split(" ")[0];
-
+    User.all = User.all.filter(e => {
+      if (e.name !== userName) return e; 
+    })
+    
     fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
     then(resp => resp.json()).then(json => {
-      User.fromJson(json).login()
-      User.renderHighscores()
+      User.fromJson(json).login();
   })
   }
 
   static login(e) {
+
     e.preventDefault()
     const createConfigObj = (userName, userHighscore = 0) => {
       return {
@@ -195,7 +198,6 @@ class User {
         fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
             Helper.createAlert(json);
             document.getElementsByClassName('login')[0].classList.add('hidden');
-            User.getUsers();
         })
       })
       return deleteButton;
@@ -222,8 +224,9 @@ class User {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
     }
+    User.renderHighscores();
   }
-
+ 
 }
 
 class Helper {
