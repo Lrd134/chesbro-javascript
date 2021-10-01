@@ -11,6 +11,14 @@ document.addEventListener("DOMContentLoaded", e =>{
   User.getUsers();
 })
 
+class Game {
+  static canvas = document.getElementById('gameBackground');
+  static ctx = Game.canvas.getContext('2d');
+  static dx = 8;
+  static dy = 8;
+  static player = new Player();
+
+}
 
 class User {
 
