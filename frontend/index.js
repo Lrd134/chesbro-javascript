@@ -13,61 +13,62 @@ document.addEventListener("DOMContentLoaded", e =>{
 
 class Player {
   // static canvas = Game.canvas;
-  static current_player = []
+  static current_player;
   constructor(x = 8, y = 8, radius= 5) {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    Player.current_player.push(this);
+    
+    Player.current_player = this;
   }
   move(e) {
     switch(e.key){
 
     case ('a'): {
-      if (Player.current_player[0].x > 8)
-        Player.current_player[0].x -= Game.dx;
+      if (Player.current_player.x > 8)
+        Player.current_player.x -= Game.dx;
       break;
     }
     
     case('d'): {
-      if (Player.current_player[0].x < 472)
-        Player.current_player[0].x += Game.dx;
+      if (Player.current_player.x < 472)
+        Player.current_player.x += Game.dx;
       break;
     }
 
     case('w'): {
-      if (Player.current_player[0].y > 8)
-        Player.current_player[0].y -= Game.dy;
+      if (Player.current_player.y > 8)
+        Player.current_player.y -= Game.dy;
       break;
     }
 
     case('s'): {
-      if (Player.current_player[0].y < 312)
-        Player.current_player[0].y += Game.dy;
+      if (Player.current_player.y < 312)
+        Player.current_player.y += Game.dy;
       break;
     }
 
     case('ArrowRight'): {
-      if (Player.current_player[0].x < 472)
-        Player.current_player[0].x += Game.dx;
+      if (Player.current_player.x < 472)
+        Player.current_player.x += Game.dx;
       break;
     }
 
     case('ArrowLeft'): {
-      if (Player.current_player[0].x > 8)
-        Player.current_player[0].x -= Game.dx;
+      if (Player.current_player.x > 8)
+        Player.current_player.x -= Game.dx;
       break;
     }
 
     case('ArrowUp'): {
-      if (Player.current_player[0].y > 8)
-        Player.current_player[0].y -= Game.dy;
+      if (Player.current_player.y > 8)
+        Player.current_player.y -= Game.dy;
       break;
     }
 
     case('ArrowDown'): {
-      if (Player.current_player[0].y < 312)
-        Player.current_player[0].y += Game.dy;
+      if (Player.current_player.y < 312)
+        Player.current_player.y += Game.dy;
       break;
     }
     default:
