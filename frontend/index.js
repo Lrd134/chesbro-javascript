@@ -24,7 +24,7 @@ class User {
 
   static fromJson(json) {
     let user = User.all.find(e => {
-      if (json.data.id === e.id) return e;
+      if (parseInt(json.data.id, 10) === e.id) return e;
       })
     if (!user){
       return new User(parseInt(json.data.id, 10), json.data.attributes.name, parseInt(json.data.attributes.highscore, 10)) 
@@ -230,6 +230,7 @@ class User {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
     }
+    debugger;
     User.renderHighscores();
   }
  
