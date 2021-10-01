@@ -10,3 +10,8 @@ body {
 .login {
   background-color: red;
 }
+
+canvas { 
+  background: #eee;
+  display: block;
+  margin: 0 auto; }
