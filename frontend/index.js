@@ -17,7 +17,24 @@ class Game {
   static dx = 8;
   static dy = 8;
   static player = new Player();
+  constructor() {
+    Game.draw();
+  }
 
+
+  static draw() { 
+    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+    Game.drawPlayer()
+    document.addEventListener('keydown', Game.player.move);
+    setTimeout(Game.draw, 30)
+  }
+  static drawPlayer(){
+    Game.ctx.beginPath();
+    Game.ctx.arc(Game.player.x, Game.player.y, Game.player.radius, 0, Math.PI * 2, false);
+    Game.ctx.fillStyle = 'blue';
+    Game.ctx.fill();
+    Game.ctx.closePath();
+  }
 }
 
 class User {
