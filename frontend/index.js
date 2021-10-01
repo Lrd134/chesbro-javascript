@@ -44,6 +44,12 @@ class User {
 
   }
 
+  static removeFromAll(name) {
+    User.all = User.all.filter(e => {
+      if (e.name !== name) return e; 
+    })
+  }
+
   static updateUser(e) {
     
     const updateConfigObj = (name = "", highscore = 0) => {
@@ -73,9 +79,7 @@ class User {
     e.preventDefault();
     
     let userName = e.target.parentElement.innerText.split(" ")[0];
-    User.all = User.all.filter(e => {
-      if (e.name !== userName) return e; 
-    })
+    this.removeFromAll(userName)
     
     fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
     then(resp => resp.json()).then(json => {
@@ -198,6 +202,7 @@ class User {
         fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
             Helper.createAlert(json);
             document.getElementsByClassName('login')[0].classList.add('hidden');
+            User.removeFromAll(userName);
             User.renderHighscores();
         })
       })
