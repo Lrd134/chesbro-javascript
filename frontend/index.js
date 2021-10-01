@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", e =>{
 class Player {
   // static canvas = Game.canvas;
   static current_player;
-  constructor(x = 8, y = 8, radius= 5) {
+  constructor(x = 8, y = 8, radius= 4) {
     this.x = x;
     this.y = y;
     this.radius = radius;
@@ -95,6 +95,7 @@ class Game {
     document.addEventListener('keydown', Game.player.move);
     setTimeout(Game.draw, 30)
   }
+
   static drawPlayer(){
     Game.ctx.beginPath();
     Game.ctx.arc(Game.player.x, Game.player.y, Game.player.radius, 0, Math.PI * 2, false);
@@ -171,7 +172,7 @@ class User {
     e.preventDefault();
     
     let userName = e.target.parentElement.innerText.split(" ")[0];
-    this.removeFromAll(userName)
+    User.removeFromAll(userName)
     
     fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
     then(resp => resp.json()).then(json => {
@@ -322,7 +323,6 @@ class User {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
     }
-    debugger;
     User.renderHighscores();
   }
  
