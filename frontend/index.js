@@ -91,19 +91,24 @@ class Game {
   static dy = 8;
   static player = new Player();
   static enemies = [ new Enemy, new Enemy(280, 100, 15)];
+  
   constructor() {
     Game.draw();
   }
 
-
   static draw() { 
+    const deltaTime = setTimeout(Game.draw, 30);
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-    Game.drawPlayer()
+    Game.drawPlayer();
     Game.drawEnemy();
     document.addEventListener('keydown', Game.player.move);
-    const deltaTime = setTimeout(Game.draw, 30);
+    if (Game.collision)
+      clearInterval(deltaTime);
+
+    else
+      deltaTime;
   }
-  static drawEnemy() {
+  static drawEnemy(interval) {
     for (let enemy of Game.enemies){
       Game.ctx.beginPath();
       Game.ctx.fillStyle = 'red';
@@ -118,6 +123,15 @@ class Game {
     Game.ctx.fillStyle = 'blue';
     Game.ctx.fill();
     Game.ctx.closePath();
+  }
+  static collision() {
+    for (let enemy of Game.enemies){
+      if (Game.player.x + Game.player.radius > enemy.x 
+        && Game.player.y > enemy.y 
+        && Game.player.x < enemy.x + enemy.lw 
+        && Game.player.y < enemy.y + enemy.lw)
+        return true;
+    }
   }
 }
 
