@@ -93,7 +93,7 @@ class Game {
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.drawPlayer()
     document.addEventListener('keydown', Game.player.move);
-    setTimeout(Game.draw, 30)
+    const deltaTime = setTimeout(Game.draw, 30);
   }
 
   static drawPlayer(){
