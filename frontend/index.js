@@ -10,7 +10,13 @@ document.addEventListener("DOMContentLoaded", e =>{
   addEvents();
   User.getUsers();
 })
-
+class Enemy {
+  constructor(x = 150, y = 150, lw = 5) {
+    this.x = x;
+    this.y = y;
+    this.lw = lw;
+  }
+}
 class Player {
   // static canvas = Game.canvas;
   static current_player;
