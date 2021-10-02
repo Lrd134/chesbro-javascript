@@ -102,9 +102,8 @@ class Game {
     Game.drawPlayer();
     Game.drawEnemy();
     document.addEventListener('keydown', Game.player.move);
-    if (Game.collision)
+    if (Game.collision())
       clearInterval(deltaTime);
-
     else
       deltaTime;
   }
@@ -128,8 +127,8 @@ class Game {
     for (let enemy of Game.enemies){
       if (Game.player.x + Game.player.radius > enemy.x 
         && Game.player.y > enemy.y 
-        && Game.player.x < enemy.x + enemy.lw 
-        && Game.player.y < enemy.y + enemy.lw)
+        && Game.player.x - Game.player.radius < enemy.x + enemy.lw 
+        && Game.player.y - Game.player.radius < enemy.y + enemy.lw)
         return true;
     }
   }
