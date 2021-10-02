@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", e =>{
   User.getUsers();
 })
 class Enemy {
-  constructor(x = 150, y = 150, lw = 5) {
+  constructor(x = 150, y = 150, lw = 10) {
     this.x = x;
     this.y = y;
     this.lw = lw;
@@ -90,6 +90,7 @@ class Game {
   static dx = 8;
   static dy = 8;
   static player = new Player();
+  static enemies = [ new Enemy, new Enemy(280, 100, 15)];
   constructor() {
     Game.draw();
   }
@@ -98,10 +99,19 @@ class Game {
   static draw() { 
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.drawPlayer()
+    Game.drawEnemy();
     document.addEventListener('keydown', Game.player.move);
     const deltaTime = setTimeout(Game.draw, 30);
   }
+  static drawEnemy() {
+    for (let enemy of Game.enemies){
+      Game.ctx.beginPath();
+      Game.ctx.fillStyle = 'red';
+      Game.ctx.fillRect(enemy.x, enemy.y, enemy.lw, enemy.lw);
+      Game.ctx.closePath();
+    }
 
+  }
   static drawPlayer(){
     Game.ctx.beginPath();
     Game.ctx.arc(Game.player.x, Game.player.y, Game.player.radius, 0, Math.PI * 2, false);
