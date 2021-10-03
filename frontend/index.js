@@ -119,11 +119,12 @@ class Game {
                     width: 10,
                     height: 10
                   }
+  static level = 1;
   constructor() {
     Game.draw();
   }
 
-  static restart() {
+  static restart(level = 1) {
     Game.player = new Player
     Game.enemies = [ new Enemy, new Enemy(280, 100, 15)];
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
@@ -140,7 +141,7 @@ class Game {
     Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
     if (Game.collisionWithWin()) {
-      Game.nextLevel() 
+      Game.nextLevelScreen() 
       debugger;
     }
     else if (Game.collisionWithEnemy()) {
@@ -176,7 +177,7 @@ class Game {
       else
         Game.canvas.addEventListener('click', this.gameOverEvent);
   }
-  static nextLevel(){
+  static nextLevelScreen(){
     Game.ctx.beginPath();
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
@@ -191,6 +192,16 @@ class Game {
     Game.ctx.closePath();
     Game.canvas.addEventListener('click', Game.nextLevelEvent)
   }
+  static nextLevelEvent(e){
+    let coords = Game.coordsInCanvas(e.clientX, e.clientY);
+    if (Game.collisionWithRestart(coords, Game.restartBox)) {
+      console.log("Trying to advance level!");
+      Game.level += 1;
+      Game.restart(Game.level);
+    }
+    else
+      Game.canvas.addEventListener('click', this.nextLevelEvent);
+  } 
   static drawEnemy(interval) {
     for (let enemy of Game.enemies){
       Game.ctx.beginPath();
