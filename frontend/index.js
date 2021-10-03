@@ -114,6 +114,11 @@ class Game {
                       width: 80,
                       height: 30
                     }
+  static winBox = { x: Game.canvas.width - 20,
+                    y: Game.canvas.height - 20,
+                    width: 10,
+                    height: 10
+                  }
   constructor() {
     Game.draw();
   }
@@ -129,10 +134,17 @@ class Game {
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.drawPlayer();
     Game.drawEnemy();
+    Game.ctx.beginPath();
+    Game.ctx.fillStyle = "gold";
+    Game.ctx.fillRect(Game.winBox.x, Game.winBox.y, Game.winBox.width, Game.winBox.height);
+    Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
     if (Game.collisionWithEnemy()) {
       clearInterval(deltaTime);
       Game.gameOver();
+    }
+    else if (Game.collisionWithWin()) {
+      debugger;
     }
     else
       deltaTime;
@@ -199,7 +211,9 @@ class Game {
       return true;
   }
 
-
+  static collisionWithWin() {
+    debugger;
+  }
 
   static coordsInCanvas(clientX, clientY) {
     let boundRect = Game.canvas.getBoundingClientRect();
