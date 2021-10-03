@@ -109,7 +109,6 @@ class Game {
   static dy = 8;
   static player = new Player();
   static enemies = [ new Enemy, new Enemy(280, 100, 15)];
-  static thisGame;
   static restartBox = { x: Game.canvas.width / 2 - 40,
                       y: Game.canvas.height - 90,
                       width: 80,
@@ -117,9 +116,14 @@ class Game {
                     }
   constructor() {
     Game.draw();
-    Game.thisGame = this
   }
 
+  static restart() {
+    Game.player = new Player
+    Game.enemies = [ new Enemy, new Enemy(280, 100, 15)];
+    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+    Game.draw();
+  }
   static draw() { 
     const deltaTime = setTimeout(Game.draw, 30);
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
@@ -144,9 +148,8 @@ class Game {
   static gameOverEvent(e){
       let coords = Game.coordsInCanvas(e.clientX, e.clientY);
       if (Game.collisionWithRestart(coords, Game.restartBox)) {
-        console.log("Trying to restart with coords " + coords);
-        delete Game.thisGame
-        new Game
+        console.log("Trying to restart");
+        Game.restart();
       }
       else
         Game.canvas.addEventListener('click', this.gameOverEvent);
