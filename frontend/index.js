@@ -135,11 +135,15 @@ class Game {
       Game.ctx.beginPath();
       Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
       Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
-      Game.ctx.closePath();
+      Game.ctx.font = '20px Times New Roman';
+      Game.ctx.textAlign = "center";
+      Game.ctx.fillStyle = "white";
+      Game.ctx.fillText("Restart", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
       Game.ctx.font = '30px Times New Roman';
       Game.ctx.textAlign = "center";
       Game.ctx.fillStyle = "red";
       Game.ctx.fillText("GAME OVER", Game.canvas.width / 2, Game.canvas.height * 0.25)
+      Game.ctx.closePath();
       Game.canvas.addEventListener('click', Game.gameOverEvent)
     }
     else
