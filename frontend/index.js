@@ -126,7 +126,15 @@ class Game {
 
   static restart(level = 1) {
     Game.player = new Player
-    Game.enemies = [ new Enemy, new Enemy(280, 100, 15)];
+    switch (level) 
+    {
+      case 1: {
+        Game.enemies = [new Enemy, new Enemy(280, 100, 15)];
+      }
+      case 2: {
+        Game.enemies = [new Enemy(180, 60, 10), new Enemy(250, 60, 10), new Enemy(375, 60, 20), new Enemy(200, 200, 25) ]
+      }
+    }
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.draw();
   }
@@ -141,8 +149,7 @@ class Game {
     Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
     if (Game.collisionWithWin()) {
-      Game.nextLevelScreen() 
-      debugger;
+      Game.nextLevelScreen()
     }
     else if (Game.collisionWithEnemy()) {
       clearInterval(deltaTime);
@@ -177,11 +184,9 @@ class Game {
       else
         Game.canvas.addEventListener('click', this.gameOverEvent);
   }
-<<<<<<< HEAD
+
   static nextLevelScreen(){
-=======
-  static nextLevel(){
->>>>>>> b9667f979ed0691edbbe8e217e73c16512d2775d
+
     Game.ctx.beginPath();
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
@@ -196,7 +201,7 @@ class Game {
     Game.ctx.closePath();
     Game.canvas.addEventListener('click', Game.nextLevelEvent)
   }
-<<<<<<< HEAD
+
   static nextLevelEvent(e){
     let coords = Game.coordsInCanvas(e.clientX, e.clientY);
     if (Game.collisionWithRestart(coords, Game.restartBox)) {
@@ -207,8 +212,6 @@ class Game {
     else
       Game.canvas.addEventListener('click', this.nextLevelEvent);
   } 
-=======
->>>>>>> b9667f979ed0691edbbe8e217e73c16512d2775d
   static drawEnemy(interval) {
     for (let enemy of Game.enemies){
       Game.ctx.beginPath();
