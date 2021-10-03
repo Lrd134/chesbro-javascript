@@ -5,10 +5,21 @@ const addEvents = () => {
   document.getElementsByClassName('user')[0].addEventListener("submit", User.login)
 }
 
+const addGameButton = () => {
+  let button = document.createElement('button');
+  button.innerText = "New Game";
+  button.addEventListener('click', e => {
+    
+    new Game
+  })
+  
+  Game.canvas.parentNode.insertBefore(button, Game.canvas);
+}
 
 document.addEventListener("DOMContentLoaded", e =>{
   addEvents();
   User.getUsers();
+  addGameButton();
 })
 class Enemy {
   constructor(x = 150, y = 150, lw = 10) {
@@ -102,8 +113,9 @@ class Game {
     Game.drawPlayer();
     Game.drawEnemy();
     document.addEventListener('keydown', Game.player.move);
-    if (Game.collision())
+    if (Game.collisionWithEnemy()) {
       clearInterval(deltaTime);
+    }
     else
       deltaTime;
   }
@@ -123,7 +135,7 @@ class Game {
     Game.ctx.fill();
     Game.ctx.closePath();
   }
-  static collision() {
+  static collisionWithEnemy() {
     for (let enemy of Game.enemies){
       if (Game.player.x + Game.player.radius > enemy.x 
         && Game.player.y > enemy.y 
