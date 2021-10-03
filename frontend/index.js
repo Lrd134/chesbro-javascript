@@ -177,7 +177,11 @@ class Game {
       else
         Game.canvas.addEventListener('click', this.gameOverEvent);
   }
+<<<<<<< HEAD
   static nextLevelScreen(){
+=======
+  static nextLevel(){
+>>>>>>> b9667f979ed0691edbbe8e217e73c16512d2775d
     Game.ctx.beginPath();
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
@@ -192,6 +196,7 @@ class Game {
     Game.ctx.closePath();
     Game.canvas.addEventListener('click', Game.nextLevelEvent)
   }
+<<<<<<< HEAD
   static nextLevelEvent(e){
     let coords = Game.coordsInCanvas(e.clientX, e.clientY);
     if (Game.collisionWithRestart(coords, Game.restartBox)) {
@@ -202,6 +207,8 @@ class Game {
     else
       Game.canvas.addEventListener('click', this.nextLevelEvent);
   } 
+=======
+>>>>>>> b9667f979ed0691edbbe8e217e73c16512d2775d
   static drawEnemy(interval) {
     for (let enemy of Game.enemies){
       Game.ctx.beginPath();
