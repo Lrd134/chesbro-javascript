@@ -123,10 +123,13 @@ class Game {
     if (Game.collisionWithEnemy()) {
       clearInterval(deltaTime);
       Game.ctx.beginPath();
-      Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height)
-      Game.ctx.font = '30px Times New Roman';
-      Game.ctx.fillText("GAME OVER", Math.ceil(Game.canvas.width * 0.5), Math.ceil(Game.canvas.height * 0.75))
+      Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
       Game.ctx.closePath();
+      Game.ctx.font = '30px Times New Roman';
+      Game.ctx.textAlign = "center";
+      Game.ctx.fillStyle = "red";
+      Game.ctx.fillText("GAME OVER", Game.canvas.width / 2, Game.canvas.height * 0.25)
+
     }
     else
       deltaTime;
