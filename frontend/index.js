@@ -139,12 +139,13 @@ class Game {
     Game.ctx.fillRect(Game.winBox.x, Game.winBox.y, Game.winBox.width, Game.winBox.height);
     Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
-    if (Game.collisionWithEnemy()) {
+    if (Game.collisionWithWin()) {
+      Game.nextLevel() 
+      debugger;
+    }
+    else if (Game.collisionWithEnemy()) {
       clearInterval(deltaTime);
       Game.gameOver();
-    }
-    else if (Game.collisionWithWin()) {
-      debugger;
     }
     else
       deltaTime;
@@ -212,7 +213,9 @@ class Game {
   }
 
   static collisionWithWin() {
-    debugger;
+    if (this.player.x > this.winBox.x && this.player.y > this.winBox.y){
+      return true;
+    }
   }
 
   static coordsInCanvas(clientX, clientY) {
