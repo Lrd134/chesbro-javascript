@@ -6,14 +6,21 @@ const addEvents = () => {
 }
 
 const addGameButton = () => {
-  let button = document.createElement('button');
-  button.innerText = "New Game";
-  button.addEventListener('click', e => {
-    
+  let [newButton, endButton] = [document.createElement('button'), document.createElement('button')];
+  newButton.innerText = "New Game";
+  endButton.innerText = "End Game";
+  newButton.addEventListener('click', e => {
     new Game
-  })
+  });
+
+  endButton.addEventListener('click', e => {
+    Game.player.x = 160;
+    Game.player.y = 160;
+  });
   
-  Game.canvas.parentNode.insertBefore(button, Game.canvas);
+  Game.canvas.parentNode.insertBefore(newButton, Game.canvas);
+  
+  Game.canvas.parentNode.insertBefore(endButton, Game.canvas);
 }
 
 document.addEventListener("DOMContentLoaded", e =>{
