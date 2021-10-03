@@ -109,9 +109,15 @@ class Game {
   static dy = 8;
   static player = new Player();
   static enemies = [ new Enemy, new Enemy(280, 100, 15)];
-  
+  static thisGame;
+  static restartBox = { x: Game.canvas.width / 2 - 40,
+                      y: Game.canvas.height - 90,
+                      width: 80,
+                      height: 30
+                    }
   constructor() {
     Game.draw();
+    Game.thisGame = this
   }
 
   static draw() { 
@@ -124,15 +130,26 @@ class Game {
       clearInterval(deltaTime);
       Game.ctx.beginPath();
       Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+      Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
       Game.ctx.closePath();
       Game.ctx.font = '30px Times New Roman';
       Game.ctx.textAlign = "center";
       Game.ctx.fillStyle = "red";
       Game.ctx.fillText("GAME OVER", Game.canvas.width / 2, Game.canvas.height * 0.25)
-
+      Game.canvas.addEventListener('click', Game.gameOverEvent)
     }
     else
       deltaTime;
+  }
+  static gameOverEvent(e){
+      let coords = Game.coordsInCanvas(e.clientX, e.clientY);
+      if (Game.collisionWithRestart(coords, Game.restartBox)) {
+        console.log("Trying to restart with coords " + coords);
+        delete Game.thisGame
+        new Game
+      }
+      else
+        Game.canvas.addEventListener('click', this.gameOverEvent);
   }
   static drawEnemy(interval) {
     for (let enemy of Game.enemies){
@@ -158,6 +175,24 @@ class Game {
         && Game.player.y - Game.player.radius < enemy.y + enemy.lw)
         return true;
     }
+  }
+
+  static collisionWithRestart(coords, restartBox) {
+    let boundRect = Game.canvas.getBoundingClientRect();
+    let boxCoords = Game.coordsInCanvas(restartBox.x + boundRect.left, restartBox.y + boundRect.top);
+    if (coords.x < boxCoords.x + restartBox.width &&
+      coords.x > boxCoords.x &&
+      coords.y < boxCoords.y + restartBox.height &&
+      coords.y > boxCoords.y)
+      return true;
+  }
+
+  static coordsInCanvas(clientX, clientY) {
+    let boundRect = Game.canvas.getBoundingClientRect();
+    return { x: clientX - boundRect.left * (Game.canvas.width / boundRect.x),
+            y: clientY - boundRect.top * (Game.canvas.height / boundRect.y)
+    }
+    
   }
 }
 
