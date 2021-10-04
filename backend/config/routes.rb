@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     get '/:name', to: 'users#show'
     post '/:name', to: 'users#update'
     delete '/:name', to: 'users#destroy'
+    post '/:name/scores', to: 'scores#create'
   end
+  
 end
