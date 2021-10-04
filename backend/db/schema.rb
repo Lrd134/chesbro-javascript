@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_27_195932) do
+ActiveRecord::Schema.define(version: 2021_10_04_102021) do
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "score"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_scores_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
@@ -19,4 +27,5 @@ ActiveRecord::Schema.define(version: 2021_09_27_195932) do
     t.string "name"
   end
 
+  add_foreign_key "scores", "users"
 end
