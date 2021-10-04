@@ -21,6 +21,13 @@ const addGameButton = () => {
   Game.canvas.parentNode.insertBefore(newButton, Game.canvas);
   
   Game.canvas.parentNode.insertBefore(endButton, Game.canvas);
+
+  Game.canvas.addEventListener('click', e => {
+    const boundCoords = Game.canvas.getBoundingClientRect();
+    const coords = Game.coordsInCanvas(e.clientX, e.clientY)
+    console.log(`X: ${coords.x}` + `\nY: ${coords.y}`);
+    console.log(`X: ${e.clientX}` + `\nY: ${e.clientY}`)
+  })
 }
 
 document.addEventListener("DOMContentLoaded", e =>{
@@ -130,9 +137,11 @@ class Game {
     {
       case 1: {
         Game.enemies = [new Enemy, new Enemy(280, 100, 15)];
+        break;
       }
       case 2: {
         Game.enemies = [new Enemy(180, 60, 10), new Enemy(250, 60, 10), new Enemy(375, 60, 20), new Enemy(200, 200, 25) ]
+        break;  
       }
     }
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
