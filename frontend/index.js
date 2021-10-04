@@ -49,7 +49,6 @@ class Player {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    
     Player.current_player = this;
   }
   move(e) {
