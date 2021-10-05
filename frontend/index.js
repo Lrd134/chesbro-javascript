@@ -160,11 +160,32 @@ class Game {
       Game.nextLevelScreen()
     }
     else if (Game.collisionWithEnemy()) {
+      const loginDiv = document.getElementsByClassName('login')[0];
+      if (loginDiv.classList.value.split(" ")[0] === "login") {
+        console.log("trying to save");
+        Game.save(loginDiv.innerText.split(" ")[0]);
+      }
       clearInterval(deltaTime);
       Game.gameOver();
     }
     else
       deltaTime;
+  }
+
+  static save(name) {
+    fetch(indexUrl + `/users/${name}/scores`, {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({
+            score: Game.level })
+  
+    }).
+    then(resp => resp.json()).
+    then(json => console.log(json)).
+    catch(error => console.log(error))
   }
 
   static gameOver() {
