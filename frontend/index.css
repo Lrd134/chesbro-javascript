@@ -1,7 +1,13 @@
 body {
   background-color: #008C4A;
 }
-
+div.header{
+  display: block;
+  margin-right: 20%;
+  margin-left: 80%;
+  margin-top: 10px;
+  margin-bottom: 120px;
+}
 
 .hidden {
   display: none;
@@ -14,4 +20,5 @@ body {
 canvas { 
   background: #eee;
   display: block;
-  margin: 0 auto; }
+  margin: 0 auto; 
+}
