@@ -25,7 +25,6 @@ class User {
       hsOverlay.classList.remove("hidden");
       hsOverlay.addEventListener("mouseleave", e=> {
           hsOverlay.classList.add("hidden");
-          User.loadHighscoreEvent();
       })
     })
   }
