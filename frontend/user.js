@@ -18,7 +18,17 @@ class User {
     return user;
   }
 
-  
+  static loadHighscoreEvent() {
+    const hs = document.getElementById("highscore-hover");
+    hs.addEventListener("mouseenter", e => {
+      const hsOverlay = document.getElementsByClassName('hidden overlay highscore')[0];
+      hsOverlay.classList.remove("hidden");
+      hsOverlay.addEventListener("mouseleave", e=> {
+          hsOverlay.classList.add("hidden");
+          User.loadHighscoreEvent();
+      })
+    })
+  }
   static getUsers() {
     fetch(indexUrl + "users").then(resp => handleErrors(resp).json()).then(json => {
       json.data.forEach(e =>{
