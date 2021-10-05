@@ -18,4 +18,10 @@ class Helper {
       alert.classList.add('hidden')
     }, 7500)
   }
+  static handleErrors(response){
+    if (!response.ok)
+      console.log(response.statusText);
+    else
+      return response.json()
+  }
 }

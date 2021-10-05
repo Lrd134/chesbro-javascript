@@ -20,13 +20,11 @@ class User {
 
   
   static getUsers() {
-
-    fetch(indexUrl + "users").then(resp => resp.json()).then(json => {
+    fetch(indexUrl + "users").then(resp => handleErrors(resp).json()).then(json => {
       json.data.forEach(e =>{
         new User(e.id, e.attributes.name, e.attributes.highscore)
-      });
-      this.renderHighscores();
-    }).catch(error => error);
+      });    
+    }).catch(error => console.log("Unable to retrieve the users. Reason: " + error.message))
 
   }
 
@@ -117,7 +115,6 @@ class User {
     users.map(e => {
       const li = document.createElement('li');
       li.classList.add('highscore-actual');
-      li.innerText = `${e.name} has a highscore of ${e.highscore}.`
       ul.appendChild(li);
     })
     Helper.removeChildElements(highscoreDiv);
