@@ -174,7 +174,6 @@ class User {
             Helper.createAlert(json);
             document.getElementsByClassName('login')[0].classList.add('hidden');
             User.removeFromAll(userName);
-            Score.renderHighscores();
         })
       })
       return deleteButton;
@@ -201,7 +200,6 @@ class User {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
     }
-    Score.renderHighscores();
   }
  
 }

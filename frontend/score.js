@@ -1,18 +1,29 @@
 class Score {
   static all = [];
-  constructor(score, user_id) {
+  constructor(id, score, user_id) {
+    this.id = id;
     this.score = score;
     this.user_id = user_id;
     Score.all.push(this);
   }
-
+  static fromJson(info) {
+    new Score(parseInt(info.id, 10), parseInt(info.attributes.score, 10), parseInt(info.attributes.user_id, 10));
+  }
+  static fetchHighscores() {
+    fetch(indexUrl + "/scores").
+    then(resp => Helper.handleErrors(resp)).then(json => {
+      json.data.forEach(e => {
+        Score.fromJson(e);
+      });
+    }).catch(error => console.log(error));
+  }
   static renderHighscores() {
-
-    const highscoreDiv = document.getElementsByClassName('highscore')[0];
+    const highscoreDiv = document.getElementsByClassName('highscore overlay')[0];
     const ul = document.createElement('ul');
-    users.map(e => {
+    Score.all.forEach(e => {
       const li = document.createElement('li');
       li.classList.add('highscore-actual');
+      
       ul.appendChild(li);
     })
     Helper.removeChildElements(highscoreDiv);
