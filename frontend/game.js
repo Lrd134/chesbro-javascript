@@ -88,6 +88,7 @@ class Game {
                     width: 10,
                     height: 10
                   }
+  static over = false;
   static level = 1;
   constructor() {
     Game.draw();
@@ -119,14 +120,15 @@ class Game {
     Game.ctx.fillRect(Game.winBox.x, Game.winBox.y, Game.winBox.width, Game.winBox.height);
     Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
-    if (Game.collisionWithWin()) {
+    if (Game.collisionWithWin() && !Game.over) {
       Game.nextLevelScreen()
     }
-    else if (Game.collisionWithEnemy()) {
+    else if (Game.collisionWithEnemy() &&!Game.over) {
       const loginDiv = document.getElementsByClassName('login')[0];
       if (loginDiv.classList.value.split(" ")[0] === "login") {
         console.log("trying to save");
         Game.save(loginDiv.innerText.split(" ")[0]);
+        Game.over = true;
       }
       clearInterval(deltaTime);
       Game.gameOver();

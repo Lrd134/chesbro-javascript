@@ -18,6 +18,12 @@ class Score {
     }).catch(error => console.log(error));
     this.loadHighscoreEvent();
   }
+  static bestTenScores() {
+    let inDescending = (() => {
+      return Score.all.sort(function(a, b){return b.id - a.id})
+    })
+    debugger;
+  }
   static renderScores() {
     const highscoreDiv = document.getElementsByClassName('highscore overlay')[0];
     const ul = document.createElement('ul');
