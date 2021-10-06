@@ -107,6 +107,7 @@ class Game {
         break;  
       }
     }
+    Game.over = false;
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.draw();
   }
@@ -121,16 +122,17 @@ class Game {
     Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
     if (Game.collisionWithWin() && !Game.over) {
+      clearInterval(deltaTime);
       Game.nextLevelScreen()
     }
-    else if (Game.collisionWithEnemy() &&!Game.over) {
+    else if (Game.collisionWithEnemy() && !Game.over) {
+      clearInterval(deltaTime);
       const loginDiv = document.getElementsByClassName('session')[0];
       if (loginDiv.classList.value.split(" ")[0] === "session") {
         console.log("trying to save");
         Game.save(loginDiv.innerText.split(" ")[0]);
         Game.over = true;
       }
-      clearInterval(deltaTime);
       Game.gameOver();
     }
     else
