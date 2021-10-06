@@ -17,7 +17,9 @@ class User {
     } else
     return user;
   }
-
+  static find_by_id(id) {
+    
+  }
   static loadHighscoreEvent() {
     const hs = document.getElementById("highscore-hover");
     hs.addEventListener("mouseenter", e => {
@@ -116,20 +118,6 @@ class User {
     }
   }
 
-  static renderHighscores() {
-
-    const users = this.all;
-    const highscoreDiv = document.getElementsByClassName('highscore')[0];
-    const ul = document.createElement('ul');
-    users.map(e => {
-      const li = document.createElement('li');
-      li.classList.add('highscore-actual');
-      ul.appendChild(li);
-    })
-    Helper.removeChildElements(highscoreDiv);
-    highscoreDiv.appendChild(ul);
-    
-  }
   
   static destroyConfigObj(name) {
 
@@ -195,7 +183,7 @@ class User {
             Helper.createAlert(json);
             document.getElementsByClassName('login')[0].classList.add('hidden');
             User.removeFromAll(userName);
-            User.renderHighscores();
+            Score.renderHighscores();
         })
       })
       return deleteButton;
@@ -222,7 +210,7 @@ class User {
       buttons[button].classList.add('user');
       loginDiv.appendChild(buttons[button])
     }
-    User.renderHighscores();
+    Score.renderHighscores();
   }
  
 }
