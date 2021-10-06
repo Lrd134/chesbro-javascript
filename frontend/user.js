@@ -123,14 +123,17 @@ class User {
     User.loadLoginEvent();
   }
 
+  static hideLogin(e) {
+    const loginDiv = document.getElementsByClassName('overlay login')[0];
+    loginDiv.classList.add('hidden');
+  }
+
   static loadLoginEvent(){
     let loginHover = document.getElementById('login-hover');
     loginHover.addEventListener('mouseenter', e => {
       let loginDiv = document.getElementsByClassName('login overlay')[0];
       loginDiv.classList.remove('hidden');
-      loginDiv.addEventListener('mouseleave', e=> {
-        loginDiv.classList.add('hidden');
-      })
+      loginDiv.addEventListener('mouseleave', User.hideLogin)
     })
     document.getElementsByClassName('user')[0].addEventListener("submit", User.login)
     
@@ -204,7 +207,10 @@ class User {
     }
     
     if (userName && userName !== '') {
-      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => Helper.handleErrors(resp)).then(json => User.fromJson(json).login());
+      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => Helper.handleErrors(resp)).then(json => {
+        User.fromJson(json).login()
+        User.hideLogin(e);
+      });
     }
     else
     {
