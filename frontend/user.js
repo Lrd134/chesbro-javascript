@@ -1,5 +1,5 @@
 class User {
-
+  static current_user;
   static all = [];
   constructor(id, name = "Example", highscore = 0) {
     this.id = parseInt(id, 10);
@@ -68,6 +68,8 @@ class User {
   
     }
     this.login = () => {
+      User.current_user = this;
+      let ul = document.getElementsByClassName('header')[0].children[0];
       const sessionDiv = document.getElementsByClassName('session')[0];
       let buttons = this.createUserButtons()
   
@@ -183,7 +185,7 @@ class User {
     }
     
     if (userName && userName !== '') {
-      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => Helper.handeErrors()).then(json => User.fromJson(json).login());
+      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => Helper.handleErrors(resp)).then(json => User.fromJson(json).login());
     }
     else
     {

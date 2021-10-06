@@ -19,7 +19,9 @@ class Score {
     this.loadHighscoreEvent();
   }
   static bestTenScores() {
-    return Score.all.sort(function(a, b){return b.id - a.id})
+    const inDescending = Score.all.sort(function(a, b){return b.score - a.score})
+    return inDescending.slice(0, 9);
+    
   }
   static renderHighScores() {
     let bestScores = this.bestTenScores()
