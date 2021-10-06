@@ -19,5 +19,15 @@ class Score {
     highscoreDiv.appendChild(ul);
     
   }
+  static loadHighscoreEvent() {
+    const hs = document.getElementById("highscore-hover");
+    hs.addEventListener("mouseenter", e => {
+      const hsOverlay = document.getElementsByClassName('hidden overlay highscore')[0];
+      hsOverlay.classList.remove("hidden");
+      hsOverlay.addEventListener("mouseleave", e=> {
+          hsOverlay.classList.add("hidden");
+      })
+    })
+  }
 
 }
