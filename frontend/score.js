@@ -19,15 +19,13 @@ class Score {
     this.loadHighscoreEvent();
   }
   static bestTenScores() {
-    let inDescending = (() => {
-      return Score.all.sort(function(a, b){return b.id - a.id})
-    })
-    debugger;
+    return Score.all.sort(function(a, b){return b.id - a.id})
   }
-  static renderScores() {
+  static renderHighScores() {
+    let bestScores = this.bestTenScores()
     const highscoreDiv = document.getElementsByClassName('highscore overlay')[0];
     const ul = document.createElement('ul');
-    Score.all.forEach(e => {
+    bestScores.forEach(e => {
       const li = document.createElement('li');
       li.classList.add('highscore-actual');
       li.innerText = `${User.find_by_id(e.user_id).name} has a high score of ${e.score}`;
@@ -35,6 +33,9 @@ class Score {
     })
     Helper.removeChildElements(highscoreDiv);
     highscoreDiv.appendChild(ul);
+  }
+  static renderScores() {
+    // Working on it
     
   }
   static loadHighscoreEvent() {
@@ -42,7 +43,7 @@ class Score {
     hs.addEventListener("mouseenter", e => {
       const hsOverlay = document.getElementsByClassName('hidden overlay highscore')[0];
       hsOverlay.classList.remove("hidden");
-      Score.renderScores()
+      Score.renderHighScores()
       hsOverlay.addEventListener("mouseleave", e=> {
           hsOverlay.classList.add("hidden");
       })

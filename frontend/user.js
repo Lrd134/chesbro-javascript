@@ -183,7 +183,7 @@ class User {
     }
     
     if (userName && userName !== '') {
-      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => resp.json()).then(json => User.fromJson(json).login());
+      fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => Helper.handeErrors()).then(json => User.fromJson(json).login());
     }
     else
     {
