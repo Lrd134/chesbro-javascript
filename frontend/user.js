@@ -70,6 +70,7 @@ class User {
     this.login = () => {
       User.current_user = this;
       let ul = document.getElementsByClassName('header')[0].children[0];
+      debugger;
       const sessionDiv = document.getElementsByClassName('session')[0];
       let buttons = this.createUserButtons()
   
