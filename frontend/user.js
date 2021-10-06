@@ -6,6 +6,79 @@ class User {
     this.name = name;
     this.highscore = parseInt(highscore, 10);
     User.all.push(this);
+    this.createUserButtons = () => {
+
+      const userEditFormEvent = (e) => {
+        const sessionDiv = document.getElementsByClassName('session')[0];
+        const editForm = document.createElement('form');
+        const nameInput = document.createElement('input');
+        const nameSubmit = document.createElement('input');
+        nameInput.type = "text";
+        nameInput.placeholder = `${this.name}`;
+        nameSubmit.type = "submit";
+        nameSubmit.value = "Change Name";
+        nameInput.classList.add('edit', 'user');
+        nameSubmit.classList.add('edit', 'user');
+        editForm.appendChild(nameInput);
+        editForm.appendChild(nameSubmit);
+        editForm.addEventListener('submit', User.updateUser);
+        sessionDiv.appendChild(editForm);
+      }
+  
+      const createLogoutButton = () => {
+        let logoutButton = document.createElement('button');
+        logoutButton.innerText = `Logout`;
+        logoutButton.classList.add('logout');
+        logoutButton.addEventListener('click', e => {
+          document.getElementsByClassName('session')[0].classList.add('hidden');
+        })
+        return logoutButton
+      }
+  
+      const createEditButton = () => {
+        let editButton = document.createElement('button');
+        editButton.classList.add('edit');
+        editButton.innerText = `Edit ${this.name}`;
+        editButton.addEventListener('click', userEditFormEvent);
+        return editButton;
+      }
+  
+      const createDeleteButton = () => {
+        let userName = this.name;
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete');
+        deleteButton.innerText = `Delete ${userName}`;
+        deleteButton.addEventListener('click', function(e){      
+          fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
+              Helper.createAlert(json);
+              document.getElementsByClassName('session')[0].classList.add('hidden');
+              User.removeFromAll(userName);
+          })
+        })
+        return deleteButton;
+        
+    
+      }
+  
+      return {
+        deleteButton: createDeleteButton(),
+        editButton: createEditButton(),
+        logoutButton: createLogoutButton()
+      }
+  
+    }
+    this.login = () => {
+      const sessionDiv = document.getElementsByClassName('session')[0];
+      let buttons = this.createUserButtons()
+  
+      sessionDiv.innerText = `${this.name} is Currently Logged in.`
+      sessionDiv.classList.remove('hidden');
+  
+      for (let button in buttons) {
+        buttons[button].classList.add('user');
+        sessionDiv.appendChild(buttons[button])
+      }
+    }
   }
 
   static fromJson(json) {
@@ -138,79 +211,7 @@ class User {
     
   }
 
-  createUserButtons() {
 
-    const userEditFormEvent = (e) => {
-      const sessionDiv = document.getElementsByClassName('session')[0];
-      const editForm = document.createElement('form');
-      const nameInput = document.createElement('input');
-      const nameSubmit = document.createElement('input');
-      nameInput.type = "text";
-      nameInput.placeholder = `${this.name}`;
-      nameSubmit.type = "submit";
-      nameSubmit.value = "Change Name";
-      nameInput.classList.add('edit', 'user');
-      nameSubmit.classList.add('edit', 'user');
-      editForm.appendChild(nameInput);
-      editForm.appendChild(nameSubmit);
-      editForm.addEventListener('submit', User.updateUser);
-      sessionDiv.appendChild(editForm);
-    }
 
-    const createLogoutButton = () => {
-      let logoutButton = document.createElement('button');
-      logoutButton.innerText = `Logout`;
-      logoutButton.classList.add('logout');
-      logoutButton.addEventListener('click', e => {
-        document.getElementsByClassName('session')[0].classList.add('hidden');
-      })
-      return logoutButton
-    }
-
-    const createEditButton = () => {
-      let editButton = document.createElement('button');
-      editButton.classList.add('edit');
-      editButton.innerText = `Edit ${this.name}`;
-      editButton.addEventListener('click', userEditFormEvent);
-      return editButton;
-    }
-
-    const createDeleteButton = () => {
-      let userName = this.name;
-      let deleteButton = document.createElement('button');
-      deleteButton.classList.add('delete');
-      deleteButton.innerText = `Delete ${userName}`;
-      deleteButton.addEventListener('click', function(e){      
-        fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
-            Helper.createAlert(json);
-            document.getElementsByClassName('session')[0].classList.add('hidden');
-            User.removeFromAll(userName);
-        })
-      })
-      return deleteButton;
-      
-  
-    }
-
-    return {
-      deleteButton: createDeleteButton(),
-      editButton: createEditButton(),
-      logoutButton: createLogoutButton()
-    }
-
-  }
-
-  login() {
-    const sessionDiv = document.getElementsByClassName('session')[0];
-    let buttons = this.createUserButtons()
-
-    sessionDiv.innerText = `${this.name} is Currently Logged in.`
-    sessionDiv.classList.remove('hidden');
-
-    for (let button in buttons) {
-      buttons[button].classList.add('user');
-      sessionDiv.appendChild(buttons[button])
-    }
-  }
  
 }
