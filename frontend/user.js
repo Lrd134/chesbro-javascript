@@ -1,10 +1,9 @@
 class User {
   static current_user;
   static all = [];
-  constructor(id, name = "Example", highscore = 0) {
+  constructor(id, name = "Example") {
     this.id = parseInt(id, 10);
     this.name = name;
-    this.highscore = parseInt(highscore, 10);
     User.all.push(this);
     this.createUserButtons = () => {
 
@@ -68,7 +67,7 @@ class User {
   
     }
     
-    this.renderProfile = () => {
+    this.renderProfile = (e) => {
       
     }
     this.logout = (e) => {
