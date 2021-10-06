@@ -23,7 +23,7 @@ class Score {
     Score.all.forEach(e => {
       const li = document.createElement('li');
       li.classList.add('highscore-actual');
-      
+      li.innerText = `${User.find_by_id(e.user_id).name} has a high score of ${e.score}`;
       ul.appendChild(li);
     })
     Helper.removeChildElements(highscoreDiv);
@@ -35,6 +35,7 @@ class Score {
     hs.addEventListener("mouseenter", e => {
       const hsOverlay = document.getElementsByClassName('hidden overlay highscore')[0];
       hsOverlay.classList.remove("hidden");
+      Score.renderHighscores()
       hsOverlay.addEventListener("mouseleave", e=> {
           hsOverlay.classList.add("hidden");
       })

@@ -18,7 +18,8 @@ class User {
     return user;
   }
   static find_by_id(id) {
-
+    User.all
+    return user;
   }
 
   static getUsers() {
