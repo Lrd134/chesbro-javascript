@@ -1,10 +1,6 @@
 
 const indexUrl = "http://localhost:3000/"
 
-const addEvents = () => {
-  document.getElementsByClassName('user')[0].addEventListener("submit", User.login)
-}
-
 const addGameButton = () => {
   let [newButton, endButton] = [document.createElement('button'), document.createElement('button')];
   newButton.innerText = "New Game";
@@ -31,7 +27,6 @@ const addGameButton = () => {
 }
 
 document.addEventListener("DOMContentLoaded", e =>{
-  addEvents();
   User.getUsers();
   Score.fetchScores();
   

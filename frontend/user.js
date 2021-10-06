@@ -69,18 +69,34 @@ class User {
     }
     this.login = () => {
       User.current_user = this;
-      let ul = document.getElementsByClassName('header')[0].children[0];
-      debugger;
-      const sessionDiv = document.getElementsByClassName('session')[0];
-      let buttons = this.createUserButtons()
+      const header = document.getElementsByClassName('header')[0]
+      const [userLi, scoresLi, logoutLi, ul] = [ document.createElement('li'),
+      document.createElement('li'),
+      document.createElement('li'),
+      header.children[0] ];
+      ul.children[0].remove();
+      userLi.id = 'user-hover';
+      userLi.setAttribute('data-id', this.id);
+      scoresLi.id = 'scores-hover';
+      scoresLi.setAttribute('data-user', this.id);
+      logoutLi.id = 'logout';
+      logoutLi.setAttribute('data-id', this.id)
+      userLi.innerText = this.name;
+      scoresLi.innerText = `${this.name}'s Scores`;
+      logoutLi.innerText = "Logout";
+      header.style.marginLeft = '70%';
+      ul.appendChild(scoresLi);
+      ul.appendChild(userLi);
+      ul.appendChild(logoutLi);
+      // const sessionDiv = document.getElementsByClassName('session')[0];
+      // let buttons = this.createUserButtons()
+      // sessionDiv.innerText = `${this.name} is Currently Logged in.`
+      // sessionDiv.classList.remove('hidden');
   
-      sessionDiv.innerText = `${this.name} is Currently Logged in.`
-      sessionDiv.classList.remove('hidden');
-  
-      for (let button in buttons) {
-        buttons[button].classList.add('user');
-        sessionDiv.appendChild(buttons[button])
-      }
+      // for (let button in buttons) {
+      //   buttons[button].classList.add('user');
+      //   sessionDiv.appendChild(buttons[button])
+      // }
     }
   }
 
@@ -116,6 +132,8 @@ class User {
         loginDiv.classList.add('hidden');
       })
     })
+    document.getElementsByClassName('user')[0].addEventListener("submit", User.login)
+    
   }
   static removeFromAll(name) {
     User.all = User.all.filter(e => {
