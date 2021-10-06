@@ -11,9 +11,20 @@ class ScoresController < ApplicationController
     end
   end
 
+  def index
+    options = {};
+    scores = Score.all
+    options[:is_collection] = true 
+    render json: serialize_score(scores, options)
+  end
+
   private
 
-    def serialize_score(score)
-      ScoreSerializer.new(score).serialized_json
+    def serialize_score(score, options = nil)
+      if options
+        ScoreSerializer.new(score, options).serialized_json
+      else
+        ScoreSerializer.new(score).serialized_json
+      end
     end
 end
