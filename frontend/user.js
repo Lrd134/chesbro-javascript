@@ -28,9 +28,19 @@ class User {
         new User(e.id, e.attributes.name, e.attributes.highscore)
       });    
     }).catch(error => console.log("Unable to retrieve the users. Reason: " + error.message))
-
+    User.loadLoginEvent();
   }
 
+  static loadLoginEvent(){
+    let loginHover = document.getElementById('login-hover');
+    loginHover.addEventListener('mouseenter', e => {
+      let loginDiv = document.getElementsByClassName('login overlay')[0];
+      loginDiv.classList.remove('hidden');
+      loginDiv.addEventListener('mouseleave', e=> {
+        loginDiv.classList.add('hidden');
+      })
+    })
+  }
   static removeFromAll(name) {
     User.all = User.all.filter(e => {
       if (e.name !== name) return e; 
@@ -131,7 +141,7 @@ class User {
   createUserButtons() {
 
     const userEditFormEvent = (e) => {
-      const loginDiv = document.getElementsByClassName('session')[0];
+      const sessionDiv = document.getElementsByClassName('session')[0];
       const editForm = document.createElement('form');
       const nameInput = document.createElement('input');
       const nameSubmit = document.createElement('input');
@@ -144,7 +154,7 @@ class User {
       editForm.appendChild(nameInput);
       editForm.appendChild(nameSubmit);
       editForm.addEventListener('submit', User.updateUser);
-      loginDiv.appendChild(editForm);
+      sessionDiv.appendChild(editForm);
     }
 
     const createLogoutButton = () => {
@@ -191,15 +201,15 @@ class User {
   }
 
   login() {
-    const loginDiv = document.getElementsByClassName('session')[0];
+    const sessionDiv = document.getElementsByClassName('session')[0];
     let buttons = this.createUserButtons()
 
-    loginDiv.innerText = `${this.name} is Currently Logged in.`
-    loginDiv.classList.remove('hidden');
+    sessionDiv.innerText = `${this.name} is Currently Logged in.`
+    sessionDiv.classList.remove('hidden');
 
     for (let button in buttons) {
       buttons[button].classList.add('user');
-      loginDiv.appendChild(buttons[button])
+      sessionDiv.appendChild(buttons[button])
     }
   }
  
