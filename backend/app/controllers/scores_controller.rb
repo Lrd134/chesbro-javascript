@@ -1,6 +1,6 @@
 class ScoresController < ApplicationController
   def create
-    user = User.find_by(name: params[:name])
+    user = User.find_by(name: params[:user_id])
     score = Score.create(score: params[:score], user: user)
     if score.id
       render json: serialize_score(score)
