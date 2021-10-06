@@ -124,8 +124,8 @@ class Game {
       Game.nextLevelScreen()
     }
     else if (Game.collisionWithEnemy() &&!Game.over) {
-      const loginDiv = document.getElementsByClassName('login')[0];
-      if (loginDiv.classList.value.split(" ")[0] === "login") {
+      const loginDiv = document.getElementsByClassName('session')[0];
+      if (loginDiv.classList.value.split(" ")[0] === "session") {
         console.log("trying to save");
         Game.save(loginDiv.innerText.split(" ")[0]);
         Game.over = true;
