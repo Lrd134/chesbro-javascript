@@ -67,6 +67,21 @@ class User {
       }
   
     }
+    
+    this.renderProfile = () => {
+      
+    }
+    this.logout = (e) => {
+      const headerUl = e.target.parentElement
+      const highscoreLi = headerUl.children[0];
+      headerUl.innerText = "";
+      let loginLi = document.createElement('li');
+      loginLi.id = "login-hover";
+      loginLi.innerText = "Login";
+      headerUl.appendChild(highscoreLi);
+      headerUl.appendChild(loginLi);
+      User.loadLoginEvent();
+    }
     this.login = () => {
       User.current_user = this;
       const header = document.getElementsByClassName('header')[0]
@@ -74,7 +89,7 @@ class User {
       document.createElement('li'),
       document.createElement('li'),
       header.children[0] ];
-      ul.children[0].remove();
+      ul.children[1].remove();
       userLi.id = 'user-hover';
       userLi.setAttribute('data-id', this.id);
       scoresLi.id = 'scores-hover';
@@ -85,9 +100,13 @@ class User {
       scoresLi.innerText = `${this.name}'s Scores`;
       logoutLi.innerText = "Logout";
       header.style.marginLeft = '70%';
+      scoresLi.addEventListener('click', Score.renderScores)
+      userLi.addEventListener('click', this.renderProfile)
+      logoutLi.addEventListener('click', this.logout)
       ul.appendChild(scoresLi);
       ul.appendChild(userLi);
       ul.appendChild(logoutLi);
+      
       // const sessionDiv = document.getElementsByClassName('session')[0];
       // let buttons = this.createUserButtons()
       // sessionDiv.innerText = `${this.name} is Currently Logged in.`
@@ -98,6 +117,7 @@ class User {
       //   sessionDiv.appendChild(buttons[button])
       // }
     }
+
   }
 
   static fromJson(json) {
@@ -113,7 +133,6 @@ class User {
     const user = User.all.find(e => id === e.id)
     return user;
   }
-
   static getUsers() {
     fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
       json.data.forEach(e =>{
@@ -130,7 +149,7 @@ class User {
 
   static loadLoginEvent(){
     let loginHover = document.getElementById('login-hover');
-    loginHover.addEventListener('mouseenter', e => {
+    loginHover.addEventListener('click', e => {
       let loginDiv = document.getElementsByClassName('login overlay')[0];
       loginDiv.classList.remove('hidden');
       loginDiv.addEventListener('mouseleave', User.hideLogin)

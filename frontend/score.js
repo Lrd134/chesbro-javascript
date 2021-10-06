@@ -42,7 +42,7 @@ class Score {
   }
   static loadHighscoreEvent() {
     const hs = document.getElementById("highscore-hover");
-    hs.addEventListener("mouseenter", e => {
+    hs.addEventListener("click", e => {
       const hsOverlay = document.getElementsByClassName('hidden overlay highscore')[0];
       hsOverlay.classList.remove("hidden");
       Score.renderHighScores()
