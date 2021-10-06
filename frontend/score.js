@@ -9,15 +9,16 @@ class Score {
   static fromJson(info) {
     new Score(parseInt(info.id, 10), parseInt(info.attributes.score, 10), parseInt(info.attributes.user_id, 10));
   }
-  static fetchHighscores() {
+  static fetchScores() {
     fetch(indexUrl + "/scores").
     then(resp => Helper.handleErrors(resp)).then(json => {
       json.data.forEach(e => {
         Score.fromJson(e);
       });
     }).catch(error => console.log(error));
+    this.loadHighscoreEvent();
   }
-  static renderHighscores() {
+  static renderScores() {
     const highscoreDiv = document.getElementsByClassName('highscore overlay')[0];
     const ul = document.createElement('ul');
     Score.all.forEach(e => {
@@ -35,7 +36,7 @@ class Score {
     hs.addEventListener("mouseenter", e => {
       const hsOverlay = document.getElementsByClassName('hidden overlay highscore')[0];
       hsOverlay.classList.remove("hidden");
-      Score.renderHighscores()
+      Score.renderScores()
       hsOverlay.addEventListener("mouseleave", e=> {
           hsOverlay.classList.add("hidden");
       })

@@ -18,12 +18,12 @@ class User {
     return user;
   }
   static find_by_id(id) {
-    User.all
+    const user = User.all.find(e => id === e.id)
     return user;
   }
 
   static getUsers() {
-    fetch(indexUrl + "users").then(resp => handleErrors(resp).json()).then(json => {
+    fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
       json.data.forEach(e =>{
         new User(e.id, e.attributes.name, e.attributes.highscore)
       });    
