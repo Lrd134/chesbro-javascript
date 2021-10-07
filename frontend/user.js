@@ -37,10 +37,10 @@ class User {
         let deleteButton = document.createElement('button');
         deleteButton.classList.add('delete');
         deleteButton.innerText = `Delete ${userName}`;
-        deleteButton.addEventListener('click', function(e){      
-          fetch(indexUrl + `users/${userName}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
+        deleteButton.addEventListener('click', e => {      
+          fetch(indexUrl + `users/${this.id}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
               Helper.createAlert(json);
-              document.getElementsByClassName('session')[0].classList.add('hidden');
+              document.getElementsByClassName('user overlay')[0].classList.add('hidden');
               User.removeFromAll(userName);
           })
         })
@@ -69,6 +69,7 @@ class User {
       })
 
     }
+    
     this.logout = (e) => {
       const headerUl = e.target.parentElement
       const highscoreLi = headerUl.children[0];
@@ -80,6 +81,7 @@ class User {
       headerUl.appendChild(loginLi);
       User.loadLoginEvent();
     }
+
     this.login = () => {
       User.current_user = this;
       const header = document.getElementsByClassName('header')[0]
@@ -133,10 +135,12 @@ class User {
     }
     
   }
+
   static find_by_id(id) {
     const user = User.all.find(e => id === e.id)
     return user;
   }
+
   static getUsers() {
     fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
       if (json.message)
@@ -165,10 +169,15 @@ class User {
     document.getElementsByClassName('user')[1].addEventListener("submit", User.login)
     
   }
+
   static removeFromAll(name) {
     User.all = User.all.filter(e => {
-      if (e.name !== name) return e; 
+      if (e.name !== name){
+        e.logout();
+        return e; 
+      }
     })
+
   }
 
   static updateUser(e) {
@@ -198,15 +207,8 @@ class User {
     const updateAfterFetch = json => {
         if (json.message)
           Helper.createAlert(json)
-        else {
-          const [user, header] = [User.fromJson(json), document.getElementsByClassName('header')[1]];
-  
-          const highscores =  header.children[0];
-          header.innerText = "";
-          header.appendChild(highscores);
-          header.appendChild(document.createElement('li'));
-          user.login();
-        }
+        else 
+          User.fromJson(json).login();
     }
     const dataId = document.getElementById('user-hover').getAttribute('data-id');
 
