@@ -119,13 +119,19 @@ class User {
   }
 
   static fromJson(json) {
-    let user = User.all.find(e => {
-      if (parseInt(json.data.id, 10) === e.id) return e;
-      })
-    if (!user){
-      return new User(parseInt(json.data.id, 10), json.data.attributes.name) 
-    } else
-    return user;
+    let user = User.all.find(e => parseInt(json.data.id, 10) === e.id)
+    if (!user)
+      return new User(json.data.id, json.data.attributes.name) 
+    else
+    {
+      if(user.name === json.data.attributes.name)
+        return user;
+      else {
+        User.removeFromAll(user.name)
+        return new User(json.data.id, json.data.attributes.name)
+      }
+    }
+    
   }
   static find_by_id(id) {
     const user = User.all.find(e => id === e.id)
