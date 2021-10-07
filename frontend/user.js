@@ -174,10 +174,10 @@ class User {
                   "Content-Type": "application/json",
                   Accept: "application/json"
                 },
-                method: "POST",
+                method: "PATCH",
                 body: JSON.stringify({
                       user: {
-                              newName: name
+                              name: name
                       }})
               }
                 
