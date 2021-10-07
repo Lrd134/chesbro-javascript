@@ -68,7 +68,8 @@ class User {
     }
     
     this.renderProfile = (e) => {
-      
+      const profileOverlay = document.getElementsByClassName('overlay user')[0];
+      debugger;
     }
     this.logout = (e) => {
       const headerUl = e.target.parentElement
@@ -105,7 +106,7 @@ class User {
       ul.appendChild(scoresLi);
       ul.appendChild(userLi);
       ul.appendChild(logoutLi);
-      
+
       // const sessionDiv = document.getElementsByClassName('session')[0];
       // let buttons = this.createUserButtons()
       // sessionDiv.innerText = `${this.name} is Currently Logged in.`
@@ -124,7 +125,7 @@ class User {
       if (parseInt(json.data.id, 10) === e.id) return e;
       })
     if (!user){
-      return new User(parseInt(json.data.id, 10), json.data.attributes.name, parseInt(json.data.attributes.highscore, 10)) 
+      return new User(parseInt(json.data.id, 10), json.data.attributes.name) 
     } else
     return user;
   }
@@ -135,7 +136,7 @@ class User {
   static getUsers() {
     fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
       json.data.forEach(e =>{
-        new User(e.id, e.attributes.name, e.attributes.highscore)
+        new User(e.id, e.attributes.name)
       });    
     }).catch(error => console.log("Unable to retrieve the users. Reason: " + error.message))
     User.loadLoginEvent();
@@ -153,7 +154,7 @@ class User {
       loginDiv.classList.remove('hidden');
       loginDiv.addEventListener('mouseleave', User.hideLogin)
     })
-    document.getElementsByClassName('user')[0].addEventListener("submit", User.login)
+    document.getElementsByClassName('user')[1].addEventListener("submit", User.login)
     
   }
   static removeFromAll(name) {
@@ -164,7 +165,7 @@ class User {
 
   static updateUser(e) {
     
-    const updateConfigObj = (name = "", highscore = 0) => {
+    const updateConfigObj = (name = "") => {
       
       return {
                 headers: {
@@ -174,8 +175,7 @@ class User {
                 method: "POST",
                 body: JSON.stringify({
                       user: {
-                              newName: name,
-                              highscore: highscore
+                              newName: name
                       }})
               }
                 
@@ -202,7 +202,7 @@ class User {
   static login(e) {
 
     e.preventDefault()
-    const createConfigObj = (userName, userHighscore = 0) => {
+    const createConfigObj = (userName) => {
       return {
     
       headers: {
@@ -212,8 +212,7 @@ class User {
       method: "POST",
       body: JSON.stringify({
               user: {
-                      name: userName,
-                      highscore: userHighscore
+                      name: userName
               }})
       }
     }
