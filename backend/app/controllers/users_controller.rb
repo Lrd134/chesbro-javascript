@@ -2,49 +2,69 @@ class UsersController < ApplicationController
 
   def index
     options = {};
-    user = User.all
+    users = User.all
     options[:is_collection] = true;
-    render json: serialize_user(user, options)
+    if users
+      render json: serialize_user(users, options)
+    else
+      render json: {
+        message: "Error: Could not Load the Users."
+      }
+    end
   end
   def show
-    user = User.find_by(name: params[:name])
-    render json: serialize_user(user)
+    user = User.find_by(id: params[:id])
+    if user
+      render json: serialize_user(user)
+    else
+      render json: {
+        message: "Error: Could not Find the Specified User."
+      }.to_json
+    end
   end
 
   def create
     user = User.find_or_create_by(user_params)
     if user
       render json: serialize_user(user)
+    else
+      render json: {
+        message: "Error: Creating the User."
+      }.to_json
     end
     
   end
 
   def update
-    user = User.find_by(name: params[:name])
-    if user.update(name: params[:user][:newName], highscore: params[:user][:highscore])
+    user = User.find_by(id: params[:id])
+    if user.update(user_params)
       render json: serialize_user(user)
     else
-      render json: {message: "error" }.to_json
+      render json: { 
+        message: "Error: Saving the User."
+      }.to_json
     end
   end
 
   def destroy
-    user = User.find_by(name: params[:name])
+    user = User.find_by(id: params[:id])
     user.destroy
     
     if user.destroyed?
       render json: {
         message: "Destroyed successfully."
-    }.to_json
+      }.to_json
     else
-      render json: {message: "error" }.to_json
+      render json: {
+        message: "Error: Deleting"
+      }.to_json
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:name, :highscore, :id)
+    params.require(:user).permit(:name, :id)
   end
 
   def serialize_user(user, options = nil)
