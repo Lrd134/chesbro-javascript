@@ -8,7 +8,7 @@ class User {
     this.createUserButtons = () => {
 
       const userEditFormEvent = (e) => {
-        const sessionDiv = document.getElementsByClassName('session')[0];
+        const sessionDiv = document.getElementsByClassName('user')[0];
         const editForm = document.createElement('form');
         const nameInput = document.createElement('input');
         const nameSubmit = document.createElement('input');
@@ -51,8 +51,7 @@ class User {
   
       return {
         deleteButton: createDeleteButton(),
-        editButton: createEditButton(),
-        logoutButton: createLogoutButton()
+        editButton: createEditButton()
       }
   
     }
@@ -188,11 +187,8 @@ class User {
       }
     }
     e.preventDefault();
-    
-    let userName = e.target.parentElement.innerText.split(" ")[0];
-    User.removeFromAll(userName)
-    
-    fetch(indexUrl + `users/${userName}`, updateConfigObj(newName)).
+    const dataId = document.getElementById('user-hover').getAttribute('data-id');
+    fetch(indexUrl + `users/${dataId}`, updateConfigObj(newName)).
     then(resp => resp.json()).then(json => {
       User.fromJson(json).login();
   })
