@@ -166,9 +166,9 @@ class User {
   }
 
   static updateUser(e) {
-    
+    e.preventDefault();
+
     const updateConfigObj = (name = "") => {
-      
       return {
                 headers: {
                   "Content-Type": "application/json",
@@ -180,26 +180,33 @@ class User {
                               name: name
                       }})
               }
-                
     }
-    
+
     let newName;
-    
+
     for (let input of e.target.children) {
       if (input.type === "text") {
         newName = input.value;
       }
     }
-    e.preventDefault();
+    const updateAfterFetch = json => {
+        if (json.message)
+          Helper.createAlert(json)
+        else {
+          const [user, header] = [User.fromJson(json), document.getElementsByClassName('header')[1]];
+  
+          const highscores =  header.children[0];
+          header.innerText = "";
+          header.appendChild(highscores);
+          header.appendChild(document.createElement('li'));
+          user.login();
+        }
+    }
     const dataId = document.getElementById('user-hover').getAttribute('data-id');
+
     fetch(indexUrl + `users/${dataId}`, updateConfigObj(newName)).
-    then(resp => resp.json()).then(json => {
-      if (json.message)
-        Helper.createAlert(json)
-      else {
-        User.fromJson(json).login();
-      }
-  })
+    then(resp => Helper.handleErrors(resp)).
+    then(json => updateAfterFetch(json))
   }
 
   static login(e) {
