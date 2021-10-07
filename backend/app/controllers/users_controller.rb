@@ -8,18 +8,18 @@ class UsersController < ApplicationController
       render json: serialize_user(users, options)
     else
       render json: {
-        message: "Error: Could not Load the Users."
+        message: "Error: Error Occured when Loading the Users."
       }
     end
   end
 
   def create
-    user = User.find_or_create_by(user_params)
-    if user && !shouldFail?
+    user = User.find_or_create_by(user_params) unless shouldFail?
+    if user
       render json: serialize_user(user)
     else
       render json: {
-        message: "Error: Occured When Creating the User."
+        message: "Error: Error Occured when Creating the User."
       }.to_json
     end
     
@@ -27,18 +27,22 @@ class UsersController < ApplicationController
 
   def update
     user = User.find_by(id: params[:id])
-    if user.update(user_params) 
-      render json: serialize_user(user)
-    else
-      render json: { 
-        message: "Error: Saving the User."
-      }.to_json
+    unless shouldFail?
+      if user.update(user_params)
+        render json: serialize_user(user)
+      else
+        render json: { 
+          message: "Error: Error Occured when Saving the User."
+        }.to_json
+      end
     end
   end
 
   def destroy
     user = User.find_by(id: params[:id])
-    user.destroy
+    
+    user.destroy unless shouldFail?
+    
     
     if user.destroyed?
       render json: {
@@ -46,7 +50,7 @@ class UsersController < ApplicationController
       }.to_json
     else
       render json: {
-        message: "Error: Deleting"
+        message: "Error: Error Occured when Deleting"
       }.to_json
     end
   end
