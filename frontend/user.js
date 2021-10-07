@@ -24,16 +24,6 @@ class User {
         sessionDiv.appendChild(editForm);
       }
   
-      const createLogoutButton = () => {
-        let logoutButton = document.createElement('button');
-        logoutButton.innerText = `Logout`;
-        logoutButton.classList.add('logout');
-        logoutButton.addEventListener('click', e => {
-          document.getElementsByClassName('session')[0].classList.add('hidden');
-        })
-        return logoutButton
-      }
-  
       const createEditButton = () => {
         let editButton = document.createElement('button');
         editButton.classList.add('edit');
@@ -69,7 +59,16 @@ class User {
     
     this.renderProfile = (e) => {
       const profileOverlay = document.getElementsByClassName('overlay user')[0];
-      debugger;
+      profileOverlay.classList.remove('hidden');
+      const buttons = this.createUserButtons();
+      for (const button in buttons){
+        profileOverlay.appendChild(buttons[button]);
+      }
+      profileOverlay.addEventListener('mouseleave', e=> {
+        profileOverlay.innerText = "";
+        profileOverlay.classList.add('hidden')
+      })
+
     }
     this.logout = (e) => {
       const headerUl = e.target.parentElement
