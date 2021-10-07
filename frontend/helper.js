@@ -20,7 +20,8 @@ class Helper {
   }
   static handleErrors(response){
     if (!response.ok)
-      console.log(response.statusText);
+      this.createAlert({
+        message: response.statusText });
     else
       return response.json()
   }
