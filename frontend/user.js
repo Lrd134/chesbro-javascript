@@ -133,9 +133,13 @@ class User {
   }
   static getUsers() {
     fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
-      json.data.forEach(e =>{
-        new User(e.id, e.attributes.name)
-      });    
+      if (json.message)
+      Helper.createAlert(json)
+      else {
+        json.data.forEach(e =>{
+          new User(e.id, e.attributes.name)
+        }); 
+      }   
     }).catch(error => console.log("Unable to retrieve the users. Reason: " + error.message))
     User.loadLoginEvent();
   }
@@ -190,7 +194,11 @@ class User {
     const dataId = document.getElementById('user-hover').getAttribute('data-id');
     fetch(indexUrl + `users/${dataId}`, updateConfigObj(newName)).
     then(resp => resp.json()).then(json => {
-      User.fromJson(json).login();
+      if (json.message)
+        Helper.createAlert(json)
+      else {
+        User.fromJson(json).login();
+      }
   })
   }
 
@@ -220,8 +228,12 @@ class User {
     
     if (userName && userName !== '') {
       fetch(indexUrl + `users`, createConfigObj(userName)).then(resp => Helper.handleErrors(resp)).then(json => {
-        User.fromJson(json).login()
-        User.hideLogin(e);
+        if (json.message)
+          Helper.createAlert(json)
+        else {
+          User.fromJson(json).login()
+          User.hideLogin(e);
+        }
       });
     }
     else
