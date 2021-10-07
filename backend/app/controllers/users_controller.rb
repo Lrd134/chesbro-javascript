@@ -19,7 +19,7 @@ class UsersController < ApplicationController
       render json: serialize_user(user)
     else
       render json: {
-        message: "Error: Error Occured when Creating the User."
+        message: "Error: Error Occured when Logging in."
       }.to_json
     end
     
@@ -32,7 +32,7 @@ class UsersController < ApplicationController
         render json: serialize_user(user)
       else
         render json: { 
-          message: "Error: Error Occured when Saving the User."
+          message: "Error: Error Occured when Saving."
         }.to_json
       end
     end
