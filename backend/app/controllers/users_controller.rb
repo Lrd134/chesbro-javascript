@@ -12,24 +12,14 @@ class UsersController < ApplicationController
       }
     end
   end
-  def show
-    user = User.find_by(id: params[:id])
-    if user
-      render json: serialize_user(user)
-    else
-      render json: {
-        message: "Error: Could not Find the Specified User."
-      }.to_json
-    end
-  end
 
   def create
     user = User.find_or_create_by(user_params)
-    if user
+    if user && !shouldFail?
       render json: serialize_user(user)
     else
       render json: {
-        message: "Error: Creating the User."
+        message: "Error: Occured When Creating the User."
       }.to_json
     end
     
@@ -37,7 +27,7 @@ class UsersController < ApplicationController
 
   def update
     user = User.find_by(id: params[:id])
-    if user.update(user_params)
+    if user.update(user_params) 
       render json: serialize_user(user)
     else
       render json: { 
