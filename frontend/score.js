@@ -36,10 +36,6 @@ class Score {
     Helper.removeChildElements(highscoreDiv);
     highscoreDiv.appendChild(ul);
   }
-  static renderScores() {
-    // Working on it
-    
-  }
   static loadHighscoreEvent() {
     const hs = document.getElementById("highscore-hover");
     hs.addEventListener("click", e => {

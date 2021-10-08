@@ -4,8 +4,25 @@ class User {
   constructor(id, name = "Example") {
     this.id = parseInt(id, 10);
     this.name = name;
-    this.scores = Score.all.filter(e => e.user_id === this.id)
+    this.scores = Score.all.filter(e => e.user_id === this.id).sort((a, b) => b.score - a.score)
     User.all.push(this);
+    
+    this.renderScores = () => {
+      const userScoreDiv = document.getElementsByClassName('user-score overlay')[0];
+      const ul = document.createElement('ul');
+      const scoreText = this.scores.map( e => `${this.name} has scored ${e.score}.`);
+      for(const text of scoreText) {
+        const li = document.createElement('li');
+        li.innerText = text;
+        ul.appendChild(li);
+      }
+      userScoreDiv.classList.remove('hidden');
+      userScoreDiv.appendChild(ul);
+      userScoreDiv.addEventListener('mouseleave', e => {
+        userScoreDiv.classList.add('hidden');
+      })
+      
+    }
     this.createUserButtons = () => {
 
       const userEditFormEvent = (e) => {
@@ -101,7 +118,7 @@ class User {
       scoresLi.innerText = `${this.name}'s Scores`;
       logoutLi.innerText = "Logout";
       header.style.marginLeft = '70%';
-      scoresLi.addEventListener('click', Score.renderScores)
+      scoresLi.addEventListener('click', this.renderScores)
       userLi.addEventListener('click', this.renderProfile)
       logoutLi.addEventListener('click', this.logout)
       ul.appendChild(scoresLi);
