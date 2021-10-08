@@ -4,7 +4,7 @@ class User {
   constructor(id, name = "Example") {
     this.id = parseInt(id, 10);
     this.name = name;
-    this.scores = Score.all.filter(e => e.user_id === this.id).sort((a, b) => b.score - a.score)
+    this.scores = Score.all.filter(e => e.user_id === this.id).sort((a, b) => b.score - a.score).slice(0,9);
     User.all.push(this);
     
     this.renderScores = () => {
