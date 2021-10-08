@@ -1,13 +1,13 @@
 class Score {
   static all = [];
   constructor(id, score, user_id) {
-    this.id = id;
-    this.score = score;
-    this.user_id = user_id;
+    this.id = parseInt(id, 10);
+    this.score = parseInt(score, 10);
+    this.user_id = parseInt(user_id, 10);
     Score.all.push(this);
   }
   static fromJson(info) {
-    new Score(parseInt(info.id, 10), parseInt(info.attributes.score, 10), parseInt(info.attributes.user_id, 10));
+    new Score(info.id, info.attributes.score, info.attributes.user_id);
   }
   static fetchScores() {
     fetch(indexUrl + "/scores").

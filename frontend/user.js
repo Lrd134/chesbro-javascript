@@ -4,6 +4,7 @@ class User {
   constructor(id, name = "Example") {
     this.id = parseInt(id, 10);
     this.name = name;
+    this.scores = Score.all.filter(e => e.user_id === this.id)
     User.all.push(this);
     this.createUserButtons = () => {
 

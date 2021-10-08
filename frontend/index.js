@@ -27,8 +27,9 @@ const addGameButton = () => {
 }
 
 document.addEventListener("DOMContentLoaded", e =>{
-  User.getUsers();
+  
   Score.fetchScores();
+  User.getUsers();
   
   addGameButton();
 })
