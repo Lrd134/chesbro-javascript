@@ -71,7 +71,7 @@ class User {
     }
     
     this.logout = (e) => {
-      const headerUl = e.target.parentElement
+      const headerUl = document.getElementsByClassName('header')[1]
       const highscoreLi = headerUl.children[0];
       headerUl.innerText = "";
       let loginLi = document.createElement('li');
@@ -198,7 +198,8 @@ class User {
     }
 
     let newName;
-
+    const uOverlay = document.getElementsByClassName('user overlay')[0];
+    const dataId = document.getElementById('user-hover').getAttribute('data-id');
     for (let input of e.target.children) {
       if (input.type === "text") {
         newName = input.value;
@@ -207,10 +208,11 @@ class User {
     const updateAfterFetch = json => {
         if (json.message)
           Helper.createAlert(json)
-        else 
+        else {
+          uOverlay.classList.add('hidden');
           User.fromJson(json).login();
+        }
     }
-    const dataId = document.getElementById('user-hover').getAttribute('data-id');
 
     fetch(indexUrl + `users/${dataId}`, updateConfigObj(newName)).
     then(resp => Helper.handleErrors(resp)).

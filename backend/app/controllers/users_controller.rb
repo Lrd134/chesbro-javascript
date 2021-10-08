@@ -27,15 +27,14 @@ class UsersController < ApplicationController
 
   def update
     user = User.find_by(id: params[:id])
-    unless shouldFail?
-      if user.update(user_params)
+    user.update(user_params) unless shouldFail?
+      if (user.name == params[:user][:name])
         render json: serialize_user(user)
       else
         render json: { 
           message: "Error: Error Occured when Saving."
         }.to_json
       end
-    end
   end
 
   def destroy
@@ -53,6 +52,7 @@ class UsersController < ApplicationController
         message: "Error: Error Occured when Deleting"
       }.to_json
     end
+
   end
 
   private
