@@ -148,8 +148,8 @@ class Game {
     }
     else if (Game.collisionWithEnemy() && !Game.over) {
       clearInterval(deltaTime);
-      const loginDiv = document.getElementsByClassName('session')[0];
-      if (loginDiv.classList.value.split(" ")[0] === "session") {
+      const loginDiv = document.getElementById('user-hover');
+      if (loginDiv) {
         console.log("trying to save");
         Game.save(loginDiv.innerText.split(" ")[0]);
         Game.over = true;
