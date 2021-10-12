@@ -2,7 +2,18 @@ class Enemy {
   constructor(x = 150, y = 150, lw = 10) {
     this.x = x;
     this.y = y;
+    this.dx = -lw;
+    this.dy = -lw;
+    this.startX = x;
+    this.startY = y;
     this.lw = lw;
+    this.move = () => {
+      if (this.x < this.startX + 200 && this.y < this.startY + 200) {
+        debugger;
+        debugger;
+        debugger;
+      }
+    }
   }
 }
 class Player {
@@ -121,6 +132,9 @@ class Game {
     Game.ctx.fillRect(Game.winBox.x, Game.winBox.y, Game.winBox.width, Game.winBox.height);
     Game.ctx.closePath();
     document.addEventListener('keydown', Game.player.move);
+    for (const enemy of Game.enemies) {
+      enemy.move();
+    }
     if (Game.collisionWithWin() && !Game.over) {
       clearInterval(deltaTime);
       Game.nextLevelScreen()
