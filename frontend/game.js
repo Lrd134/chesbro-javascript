@@ -121,7 +121,7 @@ class Game {
         break;
       }
       case 2: {
-        Game.enemies = [new Enemy(180, 60, 10), new Enemy(250, 60, 10), new Enemy(375, 60, 20), new Enemy(200, 200, 25) ]
+        Game.enemies = [new Enemy(10, 60, 15), new Enemy(250, 110, 15), new Enemy(250, 150, 30), new Enemy(200, 200, 30) ]
         break;  
       }
     }
