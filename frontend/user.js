@@ -23,6 +23,7 @@ class User {
       })
       
     }
+
     this.createUserButtons = () => {
 
       const userEditFormEvent = (e) => {
@@ -51,12 +52,25 @@ class User {
       }
   
       const createDeleteButton = () => {
+        function destroyConfigObj() {
+
+          return {
+        
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            },
+            method: "DELETE"
+          }
+          
+        }
+      
         let userName = this.name;
         let deleteButton = document.createElement('button');
         deleteButton.classList.add('delete');
         deleteButton.innerText = `Delete ${userName}`;
         deleteButton.addEventListener('click', e => {      
-          fetch(indexUrl + `users/${this.id}`, User.destroyConfigObj(userName)).then(resp => resp.json()).then(json => {
+          fetch(indexUrl + `users/${this.id}`, destroyConfigObj()).then(resp => resp.json()).then(json => {
               Helper.createAlert(json);
               document.getElementsByClassName('user overlay')[0].classList.add('hidden');
               User.removeFromAll(userName);
@@ -124,16 +138,6 @@ class User {
       ul.appendChild(scoresLi);
       ul.appendChild(userLi);
       ul.appendChild(logoutLi);
-
-      // const sessionDiv = document.getElementsByClassName('session')[0];
-      // let buttons = this.createUserButtons()
-      // sessionDiv.innerText = `${this.name} is Currently Logged in.`
-      // sessionDiv.classList.remove('hidden');
-  
-      // for (let button in buttons) {
-      //   buttons[button].classList.add('user');
-      //   sessionDiv.appendChild(buttons[button])
-      // }
     }
 
   }
@@ -172,17 +176,15 @@ class User {
     User.loadLoginEvent();
   }
 
-  static hideLogin(e) {
-    const loginDiv = document.getElementsByClassName('overlay login')[0];
-    loginDiv.classList.add('hidden');
-  }
+
 
   static loadLoginEvent(){
-    let loginHover = document.getElementById('login-hover');
-    loginHover.addEventListener('click', e => {
+    document.getElementById('login-hover').loginHover.addEventListener('click', e => {
       let loginDiv = document.getElementsByClassName('login overlay')[0];
       loginDiv.classList.remove('hidden');
-      loginDiv.addEventListener('mouseleave', User.hideLogin)
+      loginDiv.addEventListener('mouseleave', e => {
+        document.getElementsByClassName('overlay login')[0].classList.add('hidden');
+      })
     })
     document.getElementsByClassName('user')[1].addEventListener("submit", User.login)
     
@@ -267,7 +269,7 @@ class User {
           Helper.createAlert(json)
         else {
           User.fromJson(json).login()
-          User.hideLogin(e);
+          document.getElementsByClassName('overlay login')[0].classList.add('hidden');
         }
       });
     }
@@ -280,22 +282,6 @@ class User {
   }
 
   
-  static destroyConfigObj(name) {
-
-    return {
-  
-      headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-      },
-      method: "DELETE",
-      body: JSON.stringify({
-              user: {
-                      name: name
-              }})
-    }
-    
-  }
 
 
 
