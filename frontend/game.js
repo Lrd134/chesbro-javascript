@@ -111,9 +111,9 @@ class Game {
     Game.draw();
   }
 
-  static restart = (level = 1) => {
+  static restart = (newLevel = 1) => {
     this.player = new Player
-    switch (level) 
+    switch (newLevel) 
     {
       case 1: {
         this.enemies = [new Enemy, new Enemy(280, 100, 15)];
@@ -125,7 +125,7 @@ class Game {
       }
     }
     this.over = false;
-    this.level = level;
+    this.level = newLevel;
     this.draw();
   }
   static draw = () => { 
@@ -146,8 +146,10 @@ class Game {
     if (collision){
       clearInterval(deltaTime);
       if (collision.type === "enemy") {
+        this.over = true;
         this.gameOver();
       } else if (collision.type === "win") {
+        this.over = true;
         this.nextLevelScreen();
       }
     }
@@ -192,6 +194,7 @@ class Game {
   static gameOverEvent = (e) => {
       let coords = this.coordsInCanvas(e.clientX, e.clientY);
       if (this.collisionWithRestart(coords, this.restartBox)) {
+        this.canvas.removeEventListener('click', this.gameOverEvent);
         console.log("Trying to restart");
         this.restart();
       }
@@ -219,9 +222,11 @@ class Game {
   static nextLevelEvent = (e) => {
     let coords = this.coordsInCanvas(e.clientX, e.clientY);
     if (this.collisionWithRestart(coords, this.restartBox)) {
+      this.canvas.removeEventListener('click', this.nextLevelEvent)
       console.log("Trying to advance level!");
       this.level += 1;
       this.restart(this.level);
+
     }
     else
       this.canvas.addEventListener('click', this.nextLevelEvent);
