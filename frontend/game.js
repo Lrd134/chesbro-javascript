@@ -160,7 +160,7 @@ class Game {
     }
   }
 
-  save = name => {
+  static save = name => {
     fetch(indexUrl + `/users/${name}/scores`, {
       headers: {
         "Content-Type": "application/json",
@@ -197,9 +197,9 @@ class Game {
       let coords = this.coordsInCanvas(e.clientX, e.clientY);
       if (this.collisionWithRestart(coords, this.restartBox)) {
         this.canvas.removeEventListener('click', this.gameOverEvent);
-        const userName = document.getElementById('user-hover').innerText
+        const userName = document.getElementById('user-hover')
         if (userName)
-          this.save(userName);
+          this.save(userName.innerText);
         this.restart();
       }
       else
