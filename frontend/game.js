@@ -24,7 +24,6 @@ class Enemy {
   }
 }
 class Player {
-  // static canvas = Game.canvas;
   static current_player;
   constructor(x = 8, y = 8, radius= 4) {
     this.x = x;
@@ -176,60 +175,60 @@ class Game {
   static gameOver = () => {
     const ctx = this.ctx;
     ctx.beginPath();
-    ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-    ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillRect(this.restartBox.x, this.restartBox.y, this.restartBox.width, this.restartBox.height)
     ctx.font = '20px Times New Roman';
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
-    ctx.fillText("Restart", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
+    ctx.fillText("Restart", this.restartBox.x + this.restartBox.width / 2, this.restartBox.y + this.restartBox.height / 1.5);
     ctx.font = '30px Times New Roman';
     ctx.textAlign = "center";
     ctx.fillStyle = "red";
-    ctx.fillText("GAME OVER", Game.canvas.width / 2, Game.canvas.height * 0.25)
+    ctx.fillText("GAME OVER", this.canvas.width / 2, this.canvas.height * 0.25)
     ctx.closePath();
-    Game.canvas.addEventListener('click', Game.gameOverEvent)
+    this.canvas.addEventListener('click', this.gameOverEvent)
   }
 
-  static gameOverEvent(e){
-      let coords = Game.coordsInCanvas(e.clientX, e.clientY);
-      if (Game.collisionWithRestart(coords, Game.restartBox)) {
+  static gameOverEvent = (e) => {
+      let coords = this.coordsInCanvas(e.clientX, e.clientY);
+      if (this.collisionWithRestart(coords, this.restartBox)) {
         console.log("Trying to restart");
-        Game.restart();
+        this.restart();
       }
       else
-        Game.canvas.addEventListener('click', this.gameOverEvent);
+        this.canvas.addEventListener('click', this.gameOverEvent);
   }
 
-  static nextLevelScreen(){
+  static nextLevelScreen = () => {
     const ctx = this.ctx;
     ctx.beginPath();
-    ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-    ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.fillRect(this.restartBox.x, this.restartBox.y, this.restartBox.width, this.restartBox.height)
     ctx.font = '20px Times New Roman';
     ctx.textAlign = "center";
     ctx.fillStyle = "blue";
-    ctx.fillText("Next", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
+    ctx.fillText("Next", this.restartBox.x + this.restartBox.width / 2, this.restartBox.y + this.restartBox.height / 1.5);
     ctx.font = '30px Times New Roman';
     ctx.textAlign = "center";
     ctx.fillStyle = "green";
-    ctx.fillText("Congrats!", Game.canvas.width / 2, Game.canvas.height * 0.25)
+    ctx.fillText("Congrats!", this.canvas.width / 2, this.canvas.height * 0.25)
     ctx.closePath();
-    Game.canvas.addEventListener('click', Game.nextLevelEvent)
+    this.canvas.addEventListener('click', this.nextLevelEvent)
   }
 
-  static nextLevelEvent(e){
-    let coords = Game.coordsInCanvas(e.clientX, e.clientY);
-    if (Game.collisionWithRestart(coords, Game.restartBox)) {
+  static nextLevelEvent = (e) => {
+    let coords = this.coordsInCanvas(e.clientX, e.clientY);
+    if (this.collisionWithRestart(coords, this.restartBox)) {
       console.log("Trying to advance level!");
-      Game.level += 1;
-      Game.restart(Game.level);
+      this.level += 1;
+      this.restart(this.level);
     }
     else
-      Game.canvas.addEventListener('click', this.nextLevelEvent);
+      this.canvas.addEventListener('click', this.nextLevelEvent);
   } 
-  static drawEnemy(interval) {
+  static drawEnemy = (interval) => {
     const ctx = this.ctx;
-    for (let enemy of Game.enemies){
+    for (let enemy of this.enemies){
       ctx.beginPath();
       ctx.fillStyle = 'red';
       ctx.fillRect(enemy.x, enemy.y, enemy.lw, enemy.lw);
@@ -240,7 +239,7 @@ class Game {
   static drawPlayer = () => {
     const ctx = this.ctx;
     ctx.beginPath();
-    ctx.arc(Game.player.x, Game.player.y, Game.player.radius, 0, Math.PI * 2, false);
+    ctx.arc(this.player.x, this.player.y, this.player.radius, 0, Math.PI * 2, false);
     ctx.fillStyle = 'blue';
     ctx.fill();
     ctx.closePath();
@@ -277,9 +276,9 @@ class Game {
 
 
 
-  static collisionWithRestart(coords, restartBox) {
-    let boundRect = Game.canvas.getBoundingClientRect();
-    let boxCoords = Game.coordsInCanvas(restartBox.x + boundRect.left, restartBox.y + boundRect.top);
+  static collisionWithRestart = (coords, restartBox) => {
+    let boundRect = this.canvas.getBoundingClientRect();
+    let boxCoords = this.coordsInCanvas(restartBox.x + boundRect.left, restartBox.y + boundRect.top);
     if (coords.x < boxCoords.x + restartBox.width &&
       coords.x > boxCoords.x &&
       coords.y < boxCoords.y + restartBox.height &&
@@ -293,10 +292,10 @@ class Game {
     }
   }
 
-  static coordsInCanvas(clientX, clientY) {
-    let boundRect = Game.canvas.getBoundingClientRect();
-    return { x: clientX - boundRect.left * (Game.canvas.width / boundRect.x),
-            y: clientY - boundRect.top * (Game.canvas.height / boundRect.y)
+  static coordsInCanvas = (clientX, clientY) => {
+    let boundRect = this.canvas.getBoundingClientRect();
+    return { x: clientX - boundRect.left * (this.canvas.width / boundRect.x),
+            y: clientY - boundRect.top * (this.canvas.height / boundRect.y)
     }
     
   }
