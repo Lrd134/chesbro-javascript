@@ -123,6 +123,10 @@ class Game {
         this.enemies = [new Enemy(10, 60, 15), new Enemy(250, 110, 15), new Enemy(250, 150, 30), new Enemy(200, 200, 30) ]
         break;  
       }
+      case 3: {
+        this.enemies = [new Enemy(10 * this.level, 60 * this.level, 15), new Enemy(250 * (1/4 * this.level), 110 * (1/4 * this.level), 15), new Enemy(250 * (1/4 * this.level), 150 * (1/4 * this.level), 30), new Enemy(200 * (1/4 * this.level), 200 * (1/4 * this.level), 30) ]
+        break;
+      }
     }
     this.over = false;
     this.level = newLevel;
