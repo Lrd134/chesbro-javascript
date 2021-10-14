@@ -129,35 +129,28 @@ class Game {
     Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.draw();
   }
-  static draw() { 
-    const deltaTime = setTimeout(Game.draw, 30);
-    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-    Game.drawPlayer();
-    Game.drawEnemy();
-    Game.ctx.beginPath();
-    Game.ctx.fillStyle = "gold";
-    Game.ctx.fillRect(Game.winBox.x, Game.winBox.y, Game.winBox.width, Game.winBox.height);
-    Game.ctx.closePath();
-    document.addEventListener('keydown', Game.player.move);
-    for (const enemy of Game.enemies) {
+  static draw = () => { 
+    const deltaTime = setTimeout(this.draw, 30);
+    let collision = this.collision();
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawPlayer();
+    this.drawEnemy();
+    this.ctx.beginPath();
+    this.ctx.fillStyle = "gold";
+    this.ctx.fillRect(this.winBox.x, this.winBox.y, this.winBox.width, this.winBox.height);
+    this.ctx.closePath();
+    document.addEventListener('keydown', this.player.move);
+    for (const enemy of this.enemies) {
       enemy.move();
     }
-    if (Game.collisionWithWin() && !Game.over) {
+    if (collision){
       clearInterval(deltaTime);
-      Game.nextLevelScreen()
+      if (collision.type === "enemy")
+        debugger;
     }
-    else if (Game.collisionWithEnemy() && !Game.over) {
-      clearInterval(deltaTime);
-      const loginDiv = document.getElementById('user-hover');
-      if (loginDiv) {
-        console.log("trying to save");
-        Game.save(loginDiv.innerText.split(" ")[0]);
-        Game.over = true;
-      }
-      Game.gameOver();
-    }
-    else
+    else if (!this.over) {
       deltaTime;
+    }
   }
 
   static save(name) {
@@ -245,15 +238,37 @@ class Game {
     Game.ctx.fill();
     Game.ctx.closePath();
   }
-  static collisionWithEnemy() {
-    for (let enemy of Game.enemies){
-      if (Game.player.x + Game.player.radius > enemy.x 
-        && Game.player.y > enemy.y 
-        && Game.player.x - Game.player.radius < enemy.x + enemy.lw 
-        && Game.player.y - Game.player.radius < enemy.y + enemy.lw)
-        return true;
+  static collision = () => {
+
+    const collisionWithEnemy = () => {
+
+      for (let enemy of this.enemies){
+
+        if (this.player.x + this.player.radius > enemy.x 
+          && this.player.y > enemy.y 
+          && this.player.x - this.player.radius < enemy.x + enemy.lw 
+          && this.player.y - this.player.radius < enemy.y + enemy.lw) {
+            this.over = true;
+            return true;
+        }
+
+      }
     }
+    
+    const collisionWithWin = () => {
+      if (this.player.x > this.winBox.x && this.player.y > this.winBox.y){
+        this.over = true;
+        return true;
+      }
+    }
+
+    if (collisionWithEnemy()) return { type: "enemy" }
+    else if (collisionWithWin()) return { type: "win" }
+    else return null
+    
   }
+
+
 
   static collisionWithRestart(coords, restartBox) {
     let boundRect = Game.canvas.getBoundingClientRect();
