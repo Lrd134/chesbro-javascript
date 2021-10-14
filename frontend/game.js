@@ -81,8 +81,6 @@ class Player {
         Player.current_player.y += Game.dy;
       break;
     }
-    default:
-      console.log(e.key + " is not usable input.");
     }
   }
 
@@ -199,7 +197,9 @@ class Game {
       let coords = this.coordsInCanvas(e.clientX, e.clientY);
       if (this.collisionWithRestart(coords, this.restartBox)) {
         this.canvas.removeEventListener('click', this.gameOverEvent);
-        console.log("Trying to restart");
+        const userName = document.getElementById('user-hover').innerText
+        if (userName)
+          this.save(userName);
         this.restart();
       }
       else
@@ -227,7 +227,6 @@ class Game {
     let coords = this.coordsInCanvas(e.clientX, e.clientY);
     if (this.collisionWithRestart(coords, this.restartBox)) {
       this.canvas.removeEventListener('click', this.nextLevelEvent)
-      console.log("Trying to advance level!");
       this.level += 1;
       this.restart(this.level);
 
