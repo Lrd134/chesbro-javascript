@@ -26,6 +26,7 @@ class Score {
   static renderHighScores() {
     let bestScores = this.bestTenScores()
     const highscoreDiv = document.getElementsByClassName('highscore overlay')[0];
+    highscoreDiv.innerText = "Highscores";
     const ul = document.createElement('ul');
     bestScores.forEach(e => {
       const li = document.createElement('li');

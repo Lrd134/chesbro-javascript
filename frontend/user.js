@@ -105,6 +105,7 @@ class User {
     this.logout = (e) => {
       const headerUl = document.getElementsByClassName('header')[1]
       const highscoreLi = headerUl.children[0];
+      document.getElementsByClassName('user-score overlay')[0].innerText = '';
       headerUl.innerText = "";
       let loginLi = document.createElement('li');
       loginLi.id = "login-hover";
