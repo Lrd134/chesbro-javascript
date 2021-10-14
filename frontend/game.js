@@ -112,32 +112,34 @@ class Game {
     Game.draw();
   }
 
-  static restart(level = 1) {
-    Game.player = new Player
+  static restart = (level = 1) => {
+    this.player = new Player
     switch (level) 
     {
       case 1: {
-        Game.enemies = [new Enemy, new Enemy(280, 100, 15)];
+        this.enemies = [new Enemy, new Enemy(280, 100, 15)];
         break;
       }
       case 2: {
-        Game.enemies = [new Enemy(10, 60, 15), new Enemy(250, 110, 15), new Enemy(250, 150, 30), new Enemy(200, 200, 30) ]
+        this.enemies = [new Enemy(10, 60, 15), new Enemy(250, 110, 15), new Enemy(250, 150, 30), new Enemy(200, 200, 30) ]
         break;  
       }
     }
-    Game.over = false;
-    Game.draw();
+    this.over = false;
+    this.level = level;
+    this.draw();
   }
   static draw = () => { 
+    const ctx = this.ctx;
     const deltaTime = setTimeout(this.draw, 30);
     let collision = this.collision();
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawPlayer();
     this.drawEnemy();
-    this.ctx.beginPath();
-    this.ctx.fillStyle = "gold";
-    this.ctx.fillRect(this.winBox.x, this.winBox.y, this.winBox.width, this.winBox.height);
-    this.ctx.closePath();
+    ctx.beginPath();
+    ctx.fillStyle = "gold";
+    ctx.fillRect(this.winBox.x, this.winBox.y, this.winBox.width, this.winBox.height);
+    ctx.closePath();
     document.addEventListener('keydown', this.player.move);
     for (const enemy of this.enemies) {
       enemy.move();
@@ -145,7 +147,7 @@ class Game {
     if (collision){
       clearInterval(deltaTime);
       if (collision.type === "enemy") {
-        Game.gameOver();
+        this.gameOver();
       } else if (collision.type === "win") {
         this.nextLevelScreen();
       }
@@ -155,7 +157,7 @@ class Game {
     }
   }
 
-  static save(name) {
+  save = name => {
     fetch(indexUrl + `/users/${name}/scores`, {
       headers: {
         "Content-Type": "application/json",
@@ -171,19 +173,20 @@ class Game {
     catch(error => console.log(error))
   }
 
-  static gameOver() {
-    Game.ctx.beginPath();
-    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-    Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
-    Game.ctx.font = '20px Times New Roman';
-    Game.ctx.textAlign = "center";
-    Game.ctx.fillStyle = "white";
-    Game.ctx.fillText("Restart", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
-    Game.ctx.font = '30px Times New Roman';
-    Game.ctx.textAlign = "center";
-    Game.ctx.fillStyle = "red";
-    Game.ctx.fillText("GAME OVER", Game.canvas.width / 2, Game.canvas.height * 0.25)
-    Game.ctx.closePath();
+  static gameOver = () => {
+    const ctx = this.ctx;
+    ctx.beginPath();
+    ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+    ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
+    ctx.font = '20px Times New Roman';
+    ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+    ctx.fillText("Restart", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
+    ctx.font = '30px Times New Roman';
+    ctx.textAlign = "center";
+    ctx.fillStyle = "red";
+    ctx.fillText("GAME OVER", Game.canvas.width / 2, Game.canvas.height * 0.25)
+    ctx.closePath();
     Game.canvas.addEventListener('click', Game.gameOverEvent)
   }
 
@@ -198,19 +201,19 @@ class Game {
   }
 
   static nextLevelScreen(){
-
-    Game.ctx.beginPath();
-    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
-    Game.ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
-    Game.ctx.font = '20px Times New Roman';
-    Game.ctx.textAlign = "center";
-    Game.ctx.fillStyle = "blue";
-    Game.ctx.fillText("Next", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
-    Game.ctx.font = '30px Times New Roman';
-    Game.ctx.textAlign = "center";
-    Game.ctx.fillStyle = "green";
-    Game.ctx.fillText("Congrats!", Game.canvas.width / 2, Game.canvas.height * 0.25)
-    Game.ctx.closePath();
+    const ctx = this.ctx;
+    ctx.beginPath();
+    ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
+    ctx.fillRect(Game.restartBox.x, Game.restartBox.y, Game.restartBox.width, Game.restartBox.height)
+    ctx.font = '20px Times New Roman';
+    ctx.textAlign = "center";
+    ctx.fillStyle = "blue";
+    ctx.fillText("Next", Game.restartBox.x + Game.restartBox.width / 2, Game.restartBox.y + Game.restartBox.height / 1.5);
+    ctx.font = '30px Times New Roman';
+    ctx.textAlign = "center";
+    ctx.fillStyle = "green";
+    ctx.fillText("Congrats!", Game.canvas.width / 2, Game.canvas.height * 0.25)
+    ctx.closePath();
     Game.canvas.addEventListener('click', Game.nextLevelEvent)
   }
 
@@ -225,20 +228,22 @@ class Game {
       Game.canvas.addEventListener('click', this.nextLevelEvent);
   } 
   static drawEnemy(interval) {
+    const ctx = this.ctx;
     for (let enemy of Game.enemies){
-      Game.ctx.beginPath();
-      Game.ctx.fillStyle = 'red';
-      Game.ctx.fillRect(enemy.x, enemy.y, enemy.lw, enemy.lw);
-      Game.ctx.closePath();
+      ctx.beginPath();
+      ctx.fillStyle = 'red';
+      ctx.fillRect(enemy.x, enemy.y, enemy.lw, enemy.lw);
+      ctx.closePath();
     }
 
   }
-  static drawPlayer(){
-    Game.ctx.beginPath();
-    Game.ctx.arc(Game.player.x, Game.player.y, Game.player.radius, 0, Math.PI * 2, false);
-    Game.ctx.fillStyle = 'blue';
-    Game.ctx.fill();
-    Game.ctx.closePath();
+  static drawPlayer = () => {
+    const ctx = this.ctx;
+    ctx.beginPath();
+    ctx.arc(Game.player.x, Game.player.y, Game.player.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = 'blue';
+    ctx.fill();
+    ctx.closePath();
   }
   static collision = () => {
 
