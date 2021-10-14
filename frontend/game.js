@@ -126,7 +126,6 @@ class Game {
       }
     }
     Game.over = false;
-    Game.ctx.clearRect(0, 0, Game.canvas.width, Game.canvas.height);
     Game.draw();
   }
   static draw = () => { 
@@ -145,8 +144,11 @@ class Game {
     }
     if (collision){
       clearInterval(deltaTime);
-      if (collision.type === "enemy")
-        debugger;
+      if (collision.type === "enemy") {
+        Game.gameOver();
+      } else if (collision.type === "win") {
+        this.nextLevelScreen();
+      }
     }
     else if (!this.over) {
       deltaTime;
