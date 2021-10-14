@@ -158,10 +158,7 @@ class User {
     
   }
 
-  static find_by_id(id) {
-    const user = User.all.find(e => id === e.id)
-    return user;
-  }
+  static find_by_id = id => User.all.find(e => id === e.id);
 
   static getUsers() {
     fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
@@ -176,18 +173,17 @@ class User {
     User.loadLoginEvent();
   }
 
-
-
   static loadLoginEvent(){
-    document.getElementById('login-hover').loginHover.addEventListener('click', e => {
+
+    document.getElementById('login-hover').addEventListener('click', e => {
       let loginDiv = document.getElementsByClassName('login overlay')[0];
       loginDiv.classList.remove('hidden');
       loginDiv.addEventListener('mouseleave', e => {
         document.getElementsByClassName('overlay login')[0].classList.add('hidden');
       })
     })
+
     document.getElementsByClassName('user')[1].addEventListener("submit", User.login)
-    
   }
 
   static removeFromAll(name) {
