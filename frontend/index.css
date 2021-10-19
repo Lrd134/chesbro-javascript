@@ -6,9 +6,6 @@ div.header{
   margin-top: 10px;
   margin-bottom : 20px;
 }
-button.user.delete {
-  margin-left: 340px;
-}
 button.user {
   margin-left: 48px;
   margin-right: 48px;
@@ -22,7 +19,6 @@ button.user {
 input.edit {
   background-color: grey;
   border-radius: 10px;
-  margin-left: 360px;
 }
 input.edit[type='submit'] {
   margin-left: 10px;
@@ -65,7 +61,13 @@ canvas {
   margin-top: 250px;
 
 }
+div {
+  text-align: center;
+}
 
+ul {
+  list-style-type: none;
+}
 .overlay {
   display: block;
   position: absolute;
