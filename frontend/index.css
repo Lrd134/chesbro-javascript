@@ -2,12 +2,9 @@ body {
   background-color: #008C4A;
 }
 div.header{
-  display: block;
-  margin-right: 15%;
-  margin-left: 85%;
-  margin-top: 24px;
-  margin-bottom: 120px;
-  
+  float: right;
+  margin-top: 10px;
+  margin-bottom : 20px;
 }
 button.user.delete {
   margin-left: 340px;

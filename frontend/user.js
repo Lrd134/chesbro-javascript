@@ -133,7 +133,6 @@ class User {
       userLi.innerText = this.name;
       scoresLi.innerText = `${this.name}'s Scores`;
       logoutLi.innerText = "Logout";
-      header.style.marginLeft = '70%';
       scoresLi.addEventListener('click', this.renderScores)
       userLi.addEventListener('click', this.renderProfile)
       logoutLi.addEventListener('click', this.logout)
