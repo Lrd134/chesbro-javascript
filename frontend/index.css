@@ -17,6 +17,18 @@ button.game {
   border-radius: 9px;
 }
 
+div.alert {
+  z-index: 3;
+  text-align: center;
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  right: 225px;
+  top: 60%;
+  background-color: red;
+
+}
+
 button.user {
   margin-left: 48px;
   margin-right: 48px;
