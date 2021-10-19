@@ -10,6 +10,16 @@ div.header{
   
 }
 
+button.user {
+  margin-left: 48px;
+  margin-right: 48px;
+  margin-top: 120px;
+  margin-bottom: 120px;
+  color: #008c6e;
+  background-color: rgb(39, 0, 130);
+  box-shadow: 0.75em 0.75em 10px grey;
+  text-shadow: indigo;
+}
 ul.header {
   list-style-type: none;
   background-color: rgba(100, 100, 100, 0.933);
