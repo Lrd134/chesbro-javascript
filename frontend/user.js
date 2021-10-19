@@ -9,20 +9,24 @@ class User {
     
     this.renderScores = () => {
       const userScoreDiv = document.getElementsByClassName('user-score overlay')[0];
-      const ul = document.createElement('ul');
-      const userScores = this.scores;
-      const scoreText = userScores.map( e => `${this.name} has scored ${e.score}.`);
-      for(const text of scoreText) {
-        const li = document.createElement('li');
-        li.innerText = text;
-        ul.appendChild(li);
-      }
-      userScoreDiv.classList.remove('hidden');
-      userScoreDiv.appendChild(ul);
+      userScoreDiv.classList.remove('hidden'); 
+
+      if (this.scores.length >= 1) {  
+        const ul = document.createElement('ul');
+        const userScores = this.scores;
+        const scoreText = userScores.map( e => `${this.name} has scored ${e.score}.`);
+        for(const text of scoreText) {
+          const li = document.createElement('li');
+          li.innerText = text;
+          ul.appendChild(li);
+        }
+        userScoreDiv.appendChild(ul);
+      } else
+        userScoreDiv.innerText = "No Scores Recorded Yet!"
+
       userScoreDiv.addEventListener('mouseleave', e => {
         userScoreDiv.classList.add('hidden');
       })
-      
     }
 
     this.createUserButtons = () => {
