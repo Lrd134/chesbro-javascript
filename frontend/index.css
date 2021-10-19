@@ -15,12 +15,21 @@ button.user.delete {
 button.user {
   margin-left: 48px;
   margin-right: 48px;
-  margin-top: 120px;
-  margin-bottom: 120px;
+  margin-top: 80px;
+  margin-bottom: 100px;
   color: #008c6e;
   background-color: rgb(39, 0, 130);
   box-shadow: 0.75em 0.75em 10px grey;
   text-shadow: 0.1em 0.1em indigo;
+}
+input.edit {
+  background-color: grey;
+  border-radius: 10px;
+  margin-left: 360px;
+}
+input.edit[type='submit'] {
+  margin-left: 10px;
+  background-color: rgb(109, 16, 16);
 }
 ul.header {
   list-style-type: none;
