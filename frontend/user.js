@@ -36,8 +36,8 @@ class User {
         nameInput.placeholder = `${this.name}`;
         nameSubmit.type = "submit";
         nameSubmit.value = "Change Name";
-        nameInput.classList.add('edit', 'user');
-        nameSubmit.classList.add('edit', 'user');
+        nameInput.classList.add('edit');
+        nameSubmit.classList.add('edit');
         editForm.appendChild(nameInput);
         editForm.appendChild(nameSubmit);
         editForm.addEventListener('submit', User.updateUser);
@@ -46,7 +46,7 @@ class User {
   
       const createEditButton = () => {
         let editButton = document.createElement('button');
-        editButton.classList.add('edit');
+        editButton.classList.add('user');
         editButton.innerText = `Edit ${this.name}`;
         editButton.addEventListener('click', userEditFormEvent);
         return editButton;
@@ -68,7 +68,7 @@ class User {
       
         let userName = this.name;
         let deleteButton = document.createElement('button');
-        deleteButton.classList.add('delete');
+        deleteButton.classList.add('user');
         deleteButton.innerText = `Delete ${userName}`;
         deleteButton.addEventListener('click', e => {      
           fetch(indexUrl + `users/${this.id}`, destroyConfigObj()).then(resp => resp.json()).then(json => {
