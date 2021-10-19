@@ -9,7 +9,9 @@ div.header{
   margin-bottom: 120px;
   
 }
-
+button.user.delete {
+  margin-left: 340px;
+}
 button.user {
   margin-left: 48px;
   margin-right: 48px;
@@ -18,7 +20,7 @@ button.user {
   color: #008c6e;
   background-color: rgb(39, 0, 130);
   box-shadow: 0.75em 0.75em 10px grey;
-  text-shadow: indigo;
+  text-shadow: 0.1em 0.1em indigo;
 }
 ul.header {
   list-style-type: none;

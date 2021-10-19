@@ -68,7 +68,7 @@ class User {
       
         let userName = this.name;
         let deleteButton = document.createElement('button');
-        deleteButton.classList.add('user');
+        deleteButton.classList.add('user', 'delete');
         deleteButton.innerText = `Delete ${userName}`;
         deleteButton.addEventListener('click', e => {      
           fetch(indexUrl + `users/${this.id}`, destroyConfigObj()).then(resp => resp.json()).then(json => {
