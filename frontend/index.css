@@ -6,6 +6,17 @@ div.header{
   margin-top: 10px;
   margin-bottom : 20px;
 }
+button.game {
+  display: block;
+  margin: auto;
+  margin-top: 100px;
+  padding: 10px 10px 10px 10px;
+  background-color: rgb(0, 60, 255);
+  color: white;
+  border: 2px solid rgb(119, 0, 119);
+  border-radius: 9px;
+}
+
 button.user {
   margin-left: 48px;
   margin-right: 48px;
@@ -58,7 +69,7 @@ canvas {
   background: #eee;
   display: block;
   margin: auto;
-  margin-top: 250px;
+  margin-top: 150px;
 
 }
 div {
