@@ -10,7 +10,8 @@ class User {
     this.renderScores = () => {
       const userScoreDiv = document.getElementsByClassName('user-score overlay')[0];
       const ul = document.createElement('ul');
-      const scoreText = this.scores.map( e => `${this.name} has scored ${e.score}.`);
+      const userScores = this.scores;
+      const scoreText = userScores.map( e => `${this.name} has scored ${e.score}.`);
       for(const text of scoreText) {
         const li = document.createElement('li');
         li.innerText = text;
@@ -159,7 +160,7 @@ class User {
     
   }
 
-  static find_by_id = id => User.all.find(e => id === e.id);
+  static findById = id => User.all.find(e => id === e.id);
 
   static getUsers() {
     fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {

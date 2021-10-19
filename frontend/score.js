@@ -7,7 +7,7 @@ class Score {
     Score.all.push(this);
   }
   static fromJson(info) {
-    new Score(info.id, info.attributes.score, info.attributes.user_id);
+    return new Score(info.id, info.attributes.score, info.attributes.user_id);
   }
   static fetchScores() {
     fetch(indexUrl + "/scores").
@@ -31,7 +31,7 @@ class Score {
     bestScores.forEach(e => {
       const li = document.createElement('li');
       li.classList.add('highscore-actual');
-      li.innerText = `${User.find_by_id(e.user_id).name} has a high score of ${e.score}`;
+      li.innerText = `${User.findById(e.user_id).name} has a high score of ${e.score}`;
       ul.appendChild(li);
     })
     Helper.removeChildElements(highscoreDiv);

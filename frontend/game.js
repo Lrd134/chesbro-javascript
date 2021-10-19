@@ -172,7 +172,10 @@ class Game {
   
     }).
     then(resp => resp.json()).
-    then(json => console.log(json)).
+    then(json => {
+      const user = User.findById(json.data.attributes.user_id);
+      user.scores.push(Score.fromJson(json.data))
+    }).
     catch(error => console.log(error))
   }
 
