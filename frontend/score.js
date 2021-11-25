@@ -1,4 +1,6 @@
-class Score {
+import Helper from './helper.js';
+
+export default class Score {
   static all = [];
   constructor(id, score, user_id) {
     this.id = parseInt(id, 10);

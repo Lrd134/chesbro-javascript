@@ -1,4 +1,5 @@
-class User {
+import Helper from './helper.js';
+export default class User {
   static current_user;
   static all = [];
   constructor(id, name = "Example") {

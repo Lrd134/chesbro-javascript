@@ -1,4 +1,4 @@
-class Helper {
+export default class Helper {
 
   static removeChildElements(parent) {
     if (parent.children.length > 0){

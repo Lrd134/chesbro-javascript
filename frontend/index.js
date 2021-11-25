@@ -1,4 +1,7 @@
 
+import Game from './game.js';
+import Score from './score.js';
+import User from './user.js';
 const indexUrl = "http://localhost:3000/"
 
 const addGameButton = () => {
