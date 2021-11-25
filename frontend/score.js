@@ -1,5 +1,7 @@
 import Helper from './helper.js';
 
+const indexUrl = "http://localhost:3000/";
+
 export default class Score {
   static all = [];
   constructor(id, score, user_id) {

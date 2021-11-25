@@ -1,4 +1,7 @@
 import Helper from './helper.js';
+
+const indexUrl = "http://localhost:3000/";
+
 export default class User {
   static current_user;
   static all = [];
@@ -64,7 +67,8 @@ export default class User {
         
             headers: {
                 "Content-Type": "application/json",
-                Accept: "application/json"
+                Accept: "application/json",
+                "Access-Control-Allow-Origin": '*' 
             },
             method: "DELETE"
           }
@@ -167,7 +171,11 @@ export default class User {
   static findById = id => User.all.find(e => id === e.id);
 
   static getUsers() {
-    fetch(indexUrl + "users").then(resp => Helper.handleErrors(resp)).then(json => {
+    fetch(indexUrl + "users", {
+      headers: {
+        "Access-Control-Allow-Origin": '*'
+      }
+    }).then(resp => Helper.handleErrors(resp)).then(json => {
       if (json.message)
       Helper.createAlert(json)
       else {
@@ -209,7 +217,8 @@ export default class User {
       return {
                 headers: {
                   "Content-Type": "application/json",
-                  Accept: "application/json"
+                  Accept: "application/json",
+                  "Access-Control-Allow-Origin": '*'
                 },
                 method: "PATCH",
                 body: JSON.stringify({
@@ -249,7 +258,8 @@ export default class User {
     
       headers: {
           "Content-Type": "application/json",
-          Accept: "application/json"
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": '*'
       },
       method: "POST",
       body: JSON.stringify({
