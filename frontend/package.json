@@ -13,6 +13,7 @@
   "keywords": [
     "javascript"
   ],
+  "type": "module",
   "author": "Lawrence D.  Chesbro, Jr.",
   "license": "MIT",
   "bugs": {

@@ -1,6 +1,8 @@
 import Player from './player.js';
 import Enemy from './enemy.js';
 
+const indexUrl = "http://localhost:3000/";
+
 export default class Game {
   static canvas = document.getElementById('gameBackground');
   static ctx = Game.canvas.getContext('2d');
@@ -75,24 +77,25 @@ export default class Game {
     }
   }
 
-  static save = name => {
-    fetch(indexUrl + `/users/${name}/scores`, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-    },
-    method: "POST",
-    body: JSON.stringify({
-            score: Game.level })
+  // static save = name => {
+  //   fetch(indexUrl + `/users/${name}/scores`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json",
+  //       "Access-Control-Allow-Origin": '*'
+  //   },
+  //   method: "POST",
+  //   body: JSON.stringify({
+  //           score: Game.level })
   
-    }).
-    then(resp => resp.json()).
-    then(json => {
-      const user = User.findById(json.data.attributes.user_id);
-      user.scores.push(Score.fromJson(json.data))
-    }).
-    catch(error => console.log(error))
-  }
+  //   }).
+  //   then(resp => resp.json()).
+  //   then(json => {
+  //     const user = User.findById(json.data.attributes.user_id);
+  //     user.scores.push(Score.fromJson(json.data))
+  //   }).
+  //   catch(error => console.log(error))
+  // }
 
   static gameOver = () => {
     const ctx = this.ctx;
@@ -116,8 +119,8 @@ export default class Game {
       if (this.collisionWithRestart(coords, this.restartBox)) {
         this.canvas.removeEventListener('click', this.gameOverEvent);
         const userName = document.getElementById('user-hover')
-        if (userName)
-          this.save(userName.innerText);
+        // if (userName)
+        //   this.save(userName.innerText);
         this.restart();
       }
       else
