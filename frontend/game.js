@@ -1,92 +1,7 @@
-class Enemy {
-  constructor(x = 150, y = 150, lw = 15) {
-    this.x = x;
-    this.y = y;
-    this.dx = lw;
-    this.dy = lw;
-    this.startX = x;
-    this.startY = y;
-    this.lw = lw;
-    this.tick = 1;
-    this.move = () => {
-      if (this.tick === 3) {
-        if (this.x < this.startX + 200 && this.x >= this.startX) {
-          this.x += this.dx;
-        }
-        else if (this.x > this.startX + 200 || this.x < this.startX) {
-          this.dx = this.dx * -1;
-          this.x += this.dx;
-        }
-        this.tick = 1;
-      } else if (this.tick <= 2)
-        this.tick += 1;
-    }
-  }
-}
-class Player {
-  static current_player;
-  constructor(x = 8, y = 8, radius= 4) {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    Player.current_player = this;
-  }
-  move(e) {
-    switch(e.key){
+import Player from './player.js';
+import Enemy from './enemy.js';
 
-    case ('a'): {
-      if (Player.current_player.x > 8)
-        Player.current_player.x -= Game.dx;
-      break;
-    }
-    
-    case('d'): {
-      if (Player.current_player.x < 472)
-        Player.current_player.x += Game.dx;
-      break;
-    }
-
-    case('w'): {
-      if (Player.current_player.y > 8)
-        Player.current_player.y -= Game.dy;
-      break;
-    }
-
-    case('s'): {
-      if (Player.current_player.y < 312)
-        Player.current_player.y += Game.dy;
-      break;
-    }
-
-    case('ArrowRight'): {
-      if (Player.current_player.x < 472)
-        Player.current_player.x += Game.dx;
-      break;
-    }
-
-    case('ArrowLeft'): {
-      if (Player.current_player.x > 8)
-        Player.current_player.x -= Game.dx;
-      break;
-    }
-
-    case('ArrowUp'): {
-      if (Player.current_player.y > 8)
-        Player.current_player.y -= Game.dy;
-      break;
-    }
-
-    case('ArrowDown'): {
-      if (Player.current_player.y < 312)
-        Player.current_player.y += Game.dy;
-      break;
-    }
-    }
-  }
-
-}
-
-class Game {
+export default class Game {
   static canvas = document.getElementById('gameBackground');
   static ctx = Game.canvas.getContext('2d');
   static dx = 8;
@@ -247,6 +162,7 @@ class Game {
     }
 
   }
+
   static drawPlayer = () => {
     const ctx = this.ctx;
     ctx.beginPath();
@@ -255,6 +171,7 @@ class Game {
     ctx.fill();
     ctx.closePath();
   }
+
   static collision = () => {
 
     const collisionWithEnemy = () => {
