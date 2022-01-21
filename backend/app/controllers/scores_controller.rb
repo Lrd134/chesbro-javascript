@@ -10,6 +10,7 @@ class ScoresController < ApplicationController
       }.to_json
     end
   end
+  
 
   def index
     options = {};
