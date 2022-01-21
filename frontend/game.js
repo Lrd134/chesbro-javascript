@@ -22,6 +22,7 @@ export default class Game {
                   }
   static over = false;
   static level = 1;
+  static tick = 1;
   constructor() {
     Game.draw();
   }
@@ -58,10 +59,7 @@ export default class Game {
     ctx.fillStyle = "gold";
     ctx.fillRect(this.winBox.x, this.winBox.y, this.winBox.width, this.winBox.height);
     ctx.closePath();
-    document.addEventListener('keydown', this.player.move);
-    for (const enemy of this.enemies) {
-      enemy.move();
-    }
+    Game.tick === 3 ? Game.movement() : Game.tick += 1;
     if (collision){
       clearInterval(deltaTime);
       if (collision.type === "enemy") {
@@ -96,7 +94,13 @@ export default class Game {
   //   }).
   //   catch(error => console.log(error))
   // }
-
+  static movement() {
+    document.addEventListener('keydown', this.player.move)
+    Game.tick = 1;
+    for (const enemy of this.enemies) {
+      enemy.move();
+    }
+  }
   static gameOver = () => {
     const ctx = this.ctx;
     ctx.beginPath();
