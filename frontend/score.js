@@ -1,5 +1,5 @@
 import Helper from './helper.js';
-
+import User from './user.js';
 const indexUrl = "http://localhost:3000/";
 
 export default class Score {
