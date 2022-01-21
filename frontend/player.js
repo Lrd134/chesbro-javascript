@@ -17,26 +17,26 @@ export default class Player {
 
       case ('a' || 'ArrowLeft'): {
         if (Player.current_player.x > 8)
-          Player.current_player.x -= this.dx;
+          Player.current_player.x -= Player.current_player.dx;
         break;
       }
       
       case('d' || 'ArrowRight'): {
         if (Player.current_player.x < 472)
-          Player.current_player.x += this.dx;
-        break;
+          Player.current_player.x += Player.current_player.dx;
+          break;
       }
 
       case('w' || 'ArrowUp'): {
         if (Player.current_player.y > 8)
-          Player.current_player.y -= this.dy;
-        break;
+          Player.current_player.y -= Player.current_player.dy;
+          break;
       }
 
       case('s' || 'ArrowDown'): {
         if (Player.current_player.y < 312)
-          Player.current_player.y += this.dy;
-        break;
+          Player.current_player.y += Player.current_player.dy;
+          break;
       }
     }
   }
