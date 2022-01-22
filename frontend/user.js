@@ -30,7 +30,6 @@ export default class User {
 
       userScoreDiv.addEventListener('mouseleave', e => {
         userScoreDiv.classList.add('hidden');
-        
       })
     }
 

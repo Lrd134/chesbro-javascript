@@ -2,3 +2,8 @@ This application is a SPA, or Single Page Application. This application allows y
 If a user is logged in and plays the game, the score will persist to the database.
 If a user is not logged in they can still play the game.
 If logged in a user will be able to view other users scores.
+
+
+
+MY NOTES:
+login allows you to login but not create a user, score updating doesn't send a post, but updates the dom?, game works?
